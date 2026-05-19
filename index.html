@@ -182,12 +182,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
 
 <!-- HEADER -->
 <header class="hdr">
-  <div class="logo-wrap">
+  <a href="https://transformstrong.com" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;height:30px;">
     <img class="logo-img" src="https://drive.google.com/uc?export=view&id=1TB6gYhx5HjPO9DVIedHQj4O2IKYRKB46"
          alt="Transform Strong"
          onerror="this.style.display='none';document.querySelector('.logo-txt').style.display='block'">
     <span class="logo-txt">TRANSFORM <span>STRONG</span></span>
-  </div>
+  </a>
   <nav class="nav-tabs">
     <button class="ntab on"  onclick="sw('roadmap',this)">The Roadmap</button>
     <button class="ntab"     onclick="sw('goalpath',this)">Goal Path + Progress</button>
@@ -339,7 +339,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
         <div class="fg"><label class="flbl">Starting Weight (lbs)</label><input class="finp" type="number" id="sw" placeholder="e.g. 168"></div>
         <div class="fg"><label class="flbl">Current Weight (lbs)</label><input class="finp" type="number" id="cw" placeholder="e.g. 155"></div>
         <div class="fg"><label class="flbl">Goal Weight (lbs)</label><input class="finp" type="number" id="gw" placeholder="e.g. 138"></div>
-        <div class="fg"><label class="flbl">Weeks in Program</label><input class="finp" type="number" id="wi" placeholder="e.g. 12"></div>
+        <div class="fg"><label class="flbl">Weeks Actively in Deficit</label><input class="finp" type="number" id="wi" placeholder="e.g. 12"><span class="fhint">Count only weeks you've been in an active deficit — not observation weeks</span></div>
         <div class="fg"><label class="flbl">Height (optional)</label><input class="finp" type="text" id="ht" placeholder="e.g. 5'6&quot;"><span class="fhint">Used to estimate body fat % context</span></div>
         <div class="fg"><label class="flbl">Age (optional)</label><input class="finp" type="number" id="age" placeholder="e.g. 38"></div>
         <div class="fg"><label class="flbl">Goal Type</label>
@@ -534,7 +534,7 @@ function runCalc(){
   const totalJourney=Math.max(1,sw-gw);
   const pct=Math.min(100,Math.round((lost/totalJourney)*100));
 
-  const defWksDone=Math.max(0,wi-3);
+  const defWksDone=Math.max(0,wi); // field is now "weeks in deficit" directly
   const actualRate=(defWksDone>0&&lost>0)?(lost/defWksDone):0;
   const projRate=actualRate>0?Math.min(1.5,Math.max(0.3,actualRate*0.85)):0.75;
 
@@ -566,16 +566,23 @@ function runCalc(){
       narr=`Incredible work. The most important thing now is <strong>not skipping the reverse phase</strong>. A controlled <strong>${revWks}-week reverse</strong> brings your calories back up gradually, resets your metabolism, and sets you up to maintain without struggling. Legacy is your natural next home.${bfTxt}`;
       p2Mo=0;
     } else if(remaining<=3){
+      const cwH=Array.from(document.querySelectorAll('#ml1 .ck-box.done,#ml2 .ck-box.done,#ml3 .ck-box.done,#ml4 .ck-box.done'))
+        .map(el=>el.closest('.ck-item').textContent.trim()).filter(Boolean);
+      const cwHL=cwH.length>0?` Notable wins already locked in: <strong>${cwH.slice(0,3).join('; ')}</strong>.`:'';
       hl='You\'re in the <span class="accent">Final Stretch</span> — Almost There';
-      narr=`With only <strong>${remaining.toFixed(1)} lbs</strong> to go, you're close.${actualRate>0?` Based on your actual rate of <strong>${actualRate.toFixed(2)} lbs/week</strong> over ${defWksDone} weeks in deficit, that's roughly <strong>${Math.ceil(remaining/projRate)} more weeks</strong>.`:''} After that, we recommend a <strong>${revWks}-week reverse and maintenance phase</strong> before transitioning to Legacy.${bfTxt}`;
+      narr=`You\'ve lost <strong>${lost.toFixed(1)} lbs</strong> — with only <strong>${remaining.toFixed(1)} lbs</strong> to go, you\'re almost there.${actualRate>0?` At your rate of <strong>${actualRate.toFixed(2)} lbs/week</strong> over ${defWksDone} weeks in deficit, that\'s roughly <strong>${Math.ceil(remaining/projRate)} more weeks</strong>.`:``}${bfTxt} After reaching your goal, a <strong>${revWks}-week reverse and maintenance phase</strong> will lock in your results before transitioning to Legacy.${cwHL}`;
     } else {
       const rateStr=actualRate>0
-        ?`your actual rate of <strong>${actualRate.toFixed(2)} lbs/week</strong> over the past <strong>${defWksDone} weeks</strong> in a deficit`
-        :`a conservative estimate of <strong>0.75 lbs/week</strong> (enter your starting weight for a personalized rate)`;
+        ?`your actual rate of <strong>${actualRate.toFixed(2)} lbs/week</strong> over <strong>${defWksDone} weeks</strong> in a deficit`
+        :`a conservative estimate of <strong>0.75 lbs/week</strong> (enter starting weight and weeks in deficit for a personalized rate)`;
+      const hWins=Array.from(document.querySelectorAll('#ml1 .ck-box.done,#ml2 .ck-box.done,#ml3 .ck-box.done,#ml4 .ck-box.done'))
+        .map(el=>el.closest('.ck-item').textContent.trim()).filter(Boolean);
+      const hLine=hWins.length>0?` Notable wins already locked in: <strong>${hWins.slice(0,3).join('; ')}</strong>${hWins.length>3?' and more':''}.`:``;
       hl=`Based on Your Data: <span class="accent">${p2Mo} More Months</span> of Coached Support`;
-      narr=`Based on ${rateStr}, with <strong>${remaining.toFixed(1)} lbs</strong> still to go, we project approximately <strong>${cutWkLeft} more weeks in an active deficit</strong>. Because loss naturally slows as you get leaner, we've applied a modest slowdown to that estimate. After your deficit window, we strongly recommend a <strong>${revWks}-week reverse and maintenance phase</strong> — at least 30–60 days to solidify habits, reset your metabolism, and ensure the weight stays off long-term. Total additional timeline: roughly <strong>${Math.round(totalAddlWks)} weeks</strong>, rounding up to a <strong>${p2Mo}-month Phase II contract</strong> (the nearest available length of 4, 6, 8, or 12 months). This isn't starting over — it's finishing what you started with the skills you've built.${bfTxt}`;
+      narr=`You\'ve lost <strong>${lost.toFixed(1)} lbs</strong> so far — based on ${rateStr} — with <strong>${remaining.toFixed(1)} lbs</strong> still to go.${bfTxt} We project approximately <strong>${cutWkLeft} more weeks in an active deficit</strong>, with a modest buffer for the natural slowdown as you get leaner. After that, a <strong>${revWks}-week reverse and maintenance phase</strong> will reset your metabolism, restore energy, and make your results permanent. We recommend a <strong>${p2Mo}-month Phase II</strong>.${hLine}`;
     }
-  } else if(gt==='recomp'){
+  
+} else if(gt==='recomp'){
     hl=`Body Recomposition: <span class="accent">Progress Shows in the Mirror, Not Just the Scale</span>`;
     narr=`Recomposition typically takes <strong>6–12+ months</strong> of consistent effort. Progress shows up in how clothes fit, measurements, and gym performance — not always on the scale. Plan for at least <strong>${p2Mo} months</strong> of continued coaching with protein intake and progressive overload as your top priorities.${bfTxt}`;
   } else {
@@ -584,7 +591,7 @@ function runCalc(){
   }
 
   // Store for PDF
-  calcData={sw,cw,gw,wi,gt,cp,pct,remaining,cutWkLeft,revWks,p2Mo,actualRate,bfNow,bfGoal,totalAddlWks,hlText:document.createElement('div').appendChild(document.createTextNode(''))?hl.replace(/<[^>]+>/g,''):hl,narrText:narr.replace(/<[^>]+>/g,'')};
+  calcData={sw,cw,gw,wi,gt,cp,pct,remaining,cutWkLeft,revWks,p2Mo,actualRate,bfNow,bfGoal,totalAddlWks,lost,narrHTML:narr,hlText:document.createElement('div').appendChild(document.createTextNode(''))?hl.replace(/<[^>]+>/g,''):hl,narrText:narr.replace(/<[^>]+>/g,'')};
 
   // Render
   v('resWrap').style.display='block';
@@ -730,7 +737,7 @@ async function exportPDF(){
 
       <!-- WEIGHT STATS -->
       <div style="display:flex;gap:12px;margin-bottom:18px;">
-        ${[['Starting Weight',D.sw,'lbs'],['Current Weight',D.cw,'lbs'],['Goal Weight',D.gw,'lbs'],['Weeks in Program',D.wi,'weeks']].map(([lbl,val,unit])=>`
+        ${[['Starting Weight',D.sw,'lbs'],['Current Weight',D.cw,'lbs'],['Goal Weight',D.gw,'lbs'],['Weeks in Deficit',D.wi,'weeks']].map(([lbl,val,unit])=>`
         <div style="flex:1;background:#f0f7f6;border:1px solid #c8e4e1;border-radius:7px;padding:14px;text-align:center;">
           <div style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#6b7272;margin-bottom:6px;font-weight:600;">${lbl}</div>
           <div style="font-size:22px;color:${teal};font-weight:700;line-height:1;margin-bottom:3px;">${val}</div>
@@ -769,7 +776,8 @@ async function exportPDF(){
           </div>
         </div>
         ${phaseBar(D.calc)}
-        ${D.calc.actualRate>0?`<div style="font-size:9px;color:#6b7272;margin-top:4px;">Actual rate of loss: <strong style="color:#1a2020;">${D.calc.actualRate.toFixed(2)} lbs/week</strong>${D.calc.bfNow?` · Estimated body fat: ${D.calc.bfNow}% → ${D.calc.bfGoal}% at goal`:''}</div>`:''}
+        ${D.calc.actualRate>0?`<div style="font-size:9px;color:#6b7272;margin-top:4px;">Actual rate of loss: <strong style="color:#1a2020;">${D.calc.actualRate.toFixed(2)} lbs/week</strong>${D.calc.bfNow?` · Est. body fat now: <strong style="color:#1a2020;">${D.calc.bfNow}%</strong> → goal: <strong style="color:#1a2020;">${D.calc.bfGoal}%</strong>`:''}</div>`:''}
+        ${D.calc.narrHTML?`<div style="margin-top:10px;padding:12px 14px;background:#f0f7f6;border-left:3px solid #1a7a70;border-radius:0 6px 6px 0;font-size:10px;color:#1e2424;line-height:1.72;">${D.calc.narrHTML.replace(/<span[^>]*>/g,'').replace(/<\/span>/g,'')}</div>`:''}
       </div>`:''}
 
       <!-- WINS & GOALS -->
