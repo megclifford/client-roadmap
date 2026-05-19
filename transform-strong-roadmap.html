@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transform Strong — Client Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1a7a70;
+    --teal-light: #24a99b;
+    --teal-dark: #0f4e47;
+    --teal-muted: #d0eeeb;
+    --black: #0d0d0d;
+    --charcoal: #1e2020;
+    --gray-dark: #3a3f3f;
+    --gray-mid: #6b7272;
+    --gray-light: #c8d0cf;
+    --gray-bg: #f4f6f6;
+    --cream: #faf9f7;
+    --white: #ffffff;
+    --accent-gold: #c9a84c;
+    --stage1: #1a7a70;
+    --stage2: #1a7a70;
+    --stage3: #1a7a70;
+    --stage4: #1a7a70;
+    --stage5: #1a7a70;
+    --radius: 4px;
+    --radius-lg: 12px;
+    --shadow: 0 2px 16px rgba(26,122,112,0.10);
+    --shadow-strong: 0 8px 40px rgba(13,13,13,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--black);
+    border-bottom: 1px solid rgba(26,122,112,0.25);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .logo span { color: var(--teal-light); }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .nav-tab {
+    padding: 7px 20px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray-light);
+    border: none;
+    background: transparent;
+  }
+  .nav-tab.active {
+    background: var(--teal);
+    color: var(--white);
+  }
+  .nav-tab:hover:not(.active) { background: rgba(255,255,255,0.07); color: var(--white); }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ══════════════════════════════════
+     VIEW 1 — ROADMAP
+  ══════════════════════════════════ */
+  .roadmap-hero {
+    padding: 56px 40px 40px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .hero-title em { font-style: italic; color: var(--teal-light); }
+  .hero-sub {
+    font-size: 0.92rem;
+    color: var(--gray-light);
+    line-height: 1.7;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* timeline track */
+  .timeline-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+  .timeline-track {
+    position: relative;
+    padding-left: 48px;
+  }
+  .timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--teal), rgba(26,122,112,0.15));
+  }
+
+  .stage-card {
+    position: relative;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-lg);
+    background: var(--charcoal);
+    overflow: hidden;
+    transition: border-color 0.25s;
+    cursor: pointer;
+  }
+  .stage-card:hover { border-color: rgba(26,122,112,0.5); }
+  .stage-card.open { border-color: var(--teal); }
+
+  .stage-dot {
+    position: absolute;
+    left: -42px;
+    top: 24px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--teal-dark);
+    border: 2px solid var(--teal-light);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--teal-light);
+    transition: background 0.2s;
+  }
+  .stage-card.open .stage-dot { background: var(--teal); border-color: var(--teal-light); }
+
+  /* you-are-here badge */
+  .you-here {
+    display: none;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--teal);
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .stage-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    gap: 16px;
+    user-select: none;
+  }
+  .stage-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: rgba(26,122,112,0.4);
+    min-width: 32px;
+    line-height: 1;
+  }
+  .stage-card.open .stage-number { color: var(--teal-light); }
+  .stage-header-text { flex: 1; }
+  .stage-weeks {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .stage-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .stage-subtitle {
+    font-size: 0.78rem;
+    color: var(--gray-mid);
+    margin-top: 2px;
+  }
+  .stage-chevron {
+    font-size: 0.75rem;
+    color: var(--gray-mid);
+    transition: transform 0.25s;
+    padding-right: 8px;
+    flex-shrink: 0;
+  }
+  .stage-card.open .stage-chevron { transform: rotate(180deg); color: var(--teal-light); }
+
+  .stage-body {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .stage-card.open .stage-body { display: block; }
+
+  .stage-body-inner {
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media(max-width: 620px) { .stage-body-inner { grid-template-columns: 1fr; } }
+
+  .detail-block {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .detail-block.full { grid-column: 1 / -1; }
+  .detail-block h4 {
+    font-size: 0.67rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .detail-block p, .detail-block li {
+    font-size: 0.84rem;
+    color: var(--gray-light);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .detail-block ul { padding-left: 14px; }
+  .detail-block li { margin-bottom: 5px; }
+
+  .checklist { list-style: none !important; padding-left: 0 !important; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+  .checklist li::before {
+    content: '☐';
+    color: var(--teal-light);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── CALL CADENCE BAR ── */
+  .call-cadence {
+    max-width: 960px;
+    margin: 0 auto 48px;
+    padding: 0 40px;
+  }
+  .call-cadence-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .call-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media(max-width: 680px) { .call-grid { grid-template-columns: repeat(2, 1fr); } }
+  .call-pill {
+    background: rgba(26,122,112,0.1);
+    border: 1px solid rgba(26,122,112,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .call-pill-week {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--teal-light);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .call-pill-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .call-pill-desc {
+    font-size: 0.73rem;
+    color: var(--gray-mid);
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════
+     VIEW 2 — GOAL PATH CALCULATOR
+  ══════════════════════════════════ */
+  .calc-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 52px 40px 80px;
+  }
+  .calc-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .calc-hero-sub {
+    font-size: 0.88rem;
+    color: var(--gray-mid);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .calc-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  @media(max-width: 600px) { .calc-form { grid-template-columns: 1fr; } }
+
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    font-weight: 600;
+  }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 11px 14px;
+    color: var(--white);
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--teal-light);
+    background: rgba(26,122,112,0.07);
+  }
+  .form-select option { background: var(--charcoal); color: var(--white); }
+  .form-textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .form-hint { font-size: 0.72rem; color: var(--gray-mid); margin-top: -3px; }
+
+  .goals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  @media(max-width: 600px) { .goals-grid { grid-template-columns: 1fr; } }
+
+  .goals-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .goals-box h3 {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .mini-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .mini-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: rgba(26,122,112,0.5);
+    min-width: 18px;
+  }
+  .mini-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 5px;
+    padding: 8px 11px;
+    color: var(--white);
+    font-size: 0.83rem;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .mini-input:focus { border-color: var(--teal-light); }
+
+  .calc-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: var(--teal);
+    border: none;
+    border-radius: 8px;
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 40px;
+  }
+  .calc-btn:hover { background: var(--teal-light); }
+  .calc-btn:active { transform: scale(0.99); }
+
+  /* ── RESULTS ── */
+  .results-panel {
+    display: none;
+    animation: fadeUp 0.4s ease;
+  }
+  .results-panel.visible { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .results-divider {
+    border: none;
+    border-top: 1px solid rgba(26,122,112,0.2);
+    margin-bottom: 36px;
+  }
+  .results-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 8px;
+  }
+  .results-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 28px;
+    line-height: 1.2;
+  }
+  .results-headline strong { font-weight: 600; color: var(--teal-light); font-style: italic; }
+
+  /* progress bar */
+  .progress-section { margin-bottom: 32px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    color: var(--gray-mid);
+    margin-bottom: 8px;
+  }
+  .progress-label span { color: var(--teal-light); font-weight: 600; }
+  .progress-bar-track {
+    height: 10px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--teal-dark), var(--teal-light));
+    border-radius: 20px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  /* recommendation cards */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media(max-width: 640px) { .rec-grid { grid-template-columns: 1fr; } }
+
+  .rec-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 20px 18px;
+    text-align: center;
+  }
+  .rec-card.highlight {
+    background: rgba(26,122,112,0.12);
+    border-color: rgba(26,122,112,0.35);
+  }
+  .rec-card-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 8px;
+  }
+  .rec-card.highlight .rec-card-label { color: var(--teal-light); }
+  .rec-card-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .rec-card.highlight .rec-card-value { color: var(--teal-light); }
+  .rec-card-unit {
+    font-size: 0.74rem;
+    color: var(--gray-mid);
+  }
+
+  /* recommendation text */
+  .rec-summary {
+    background: rgba(26,122,112,0.08);
+    border: 1px solid rgba(26,122,112,0.2);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 24px;
+    font-size: 0.88rem;
+    color: var(--gray-light);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .rec-summary strong { color: var(--white); font-weight: 500; }
+
+  /* phase timeline visual */
+  .phase-timeline {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 48px;
+  }
+  .phase-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    line-height: 1.2;
+    transition: flex 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 8px;
+  }
+  .phase-block.phase-obs { background: #1a4a45; }
+  .phase-block.phase-cut { background: var(--teal-dark); }
+  .phase-block.phase-rev { background: var(--teal); }
+  .phase-block.phase-p2  { background: var(--teal-light); }
+  .phase-block.phase-leg { background: var(--accent-gold); color: var(--black); }
+
+  .phase-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    color: var(--gray-light);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* next steps */
+  .next-steps-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 14px;
+  }
+  .steps-list { list-style: none; }
+  .steps-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--gray-light);
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .step-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(26,122,112,0.2);
+    border: 1px solid rgba(26,122,112,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: var(--teal-light);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ══════════════════════════════════
+     VIEW 3 — PROGRESS TRACKER
+  ══════════════════════════════════ */
+  .tracker-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 52px 40px 80px;
+  }
+  .tracker-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .tracker-hero-sub {
+    font-size: 0.88rem;
+    color: var(--gray-mid);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .tracker-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media(max-width: 580px) { .tracker-meta { grid-template-columns: 1fr 1fr; } }
+  .meta-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+  .meta-card-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 6px;
+  }
+  .meta-card-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .meta-card-unit { font-size: 0.75rem; color: var(--gray-mid); margin-top: 2px; }
+
+  .tracker-section { margin-bottom: 32px; }
+  .tracker-section-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .milestone-list { list-style: none; }
+  .milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--gray-light);
+    font-weight: 300;
+  }
+  .milestone-item:last-child { border-bottom: none; }
+  .milestone-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .milestone-check.done {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+  .milestone-check.done::after { content: '✓'; font-size: 0.7rem; color: white; }
+
+  .tracker-notes {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .notes-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--gray-light);
+    font-size: 0.85rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+  }
+  .save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 8px 18px;
+    background: rgba(26,122,112,0.2);
+    border: 1px solid rgba(26,122,112,0.3);
+    border-radius: 6px;
+    color: var(--teal-light);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    text-transform: uppercase;
+  }
+  .save-btn:hover { background: rgba(26,122,112,0.35); }
+  .save-confirm {
+    font-size: 0.74rem;
+    color: var(--teal-light);
+    margin-left: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .save-confirm.show { opacity: 1; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 20px 40px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">Transform <span>Strong</span></div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('roadmap', this)">The Roadmap</button>
+    <button class="nav-tab" onclick="switchView('calculator', this)">Goal Path</button>
+    <button class="nav-tab" onclick="switchView('tracker', this)">My Progress</button>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════ VIEW 1 — ROADMAP ══════════════════════════════════ -->
+<div id="view-roadmap" class="view active">
+
+  <div class="roadmap-hero">
+    <div class="hero-eyebrow">Phase I — 4 Month Foundation</div>
+    <h1 class="hero-title">Your Transform Strong<br><em>Client Roadmap</em></h1>
+    <p class="hero-sub">This is your map. You'll always know exactly where you are, what comes next, and what success looks like at every stage. Click any stage to explore.</p>
+  </div>
+
+  <!-- Call Cadence Bar -->
+  <div class="call-cadence">
+    <div class="call-cadence-title">Coach Call Schedule</div>
+    <div class="call-grid">
+      <div class="call-pill">
+        <div class="call-pill-week">Week 1</div>
+        <div class="call-pill-name">Intro Call</div>
+        <div class="call-pill-desc">Meet your coach, walk the roadmap, set expectations</div>
+      </div>
+      <div class="call-pill">
+        <div class="call-pill-week">Weeks 3–4</div>
+        <div class="call-pill-name">Prescription Call</div>
+        <div class="call-pill-desc">Full game plan rollout — deficit, workouts, your goals</div>
+      </div>
+      <div class="call-pill">
+        <div class="call-pill-week">Weeks 6–8</div>
+        <div class="call-pill-name">Benchmark Call</div>
+        <div class="call-pill-desc">Mid-point check-in, troubleshoot, plant Phase II seeds</div>
+      </div>
+      <div class="call-pill">
+        <div class="call-pill-week">Weeks 12–13</div>
+        <div class="call-pill-name">Goal Path Call</div>
+        <div class="call-pill-desc">Full review, map what's next, plan your continued journey</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-wrapper">
+    <div class="timeline-track" id="stageTrack">
+
+      <!-- STAGE 1 -->
+      <div class="stage-card" id="stage1" onclick="toggleStage('stage1')">
+        <div class="stage-dot">1</div>
+        <div class="you-here" id="yh1">You Are Here ✦</div>
+        <div class="stage-header">
+          <div class="stage-number">01</div>
+          <div class="stage-header-text">
+            <div class="stage-weeks">Weeks 1–3</div>
+            <div class="stage-title">The Foundation</div>
+            <div class="stage-subtitle">Observation & Easy Wins</div>
+          </div>
+          <div class="stage-chevron">▼</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <div class="detail-block">
+              <h4>What's Happening</h4>
+              <p>This is your starting point — not your results phase. We're learning your patterns, getting comfortable with tracking, and building the foundation before we prescribe your plan. Think of it as the prerequisite course.</p>
+            </div>
+            <div class="detail-block">
+              <h4>What to Expect</h4>
+              <p>You may or may not see the scale move — and that's completely normal. Some clients see early progress just from tracking. Others need a few weeks to calibrate. Either way, this phase is working.</p>
+            </div>
+            <div class="detail-block">
+              <h4>What We're Watching</h4>
+              <ul>
+                <li>Your real-life calorie baseline</li>
+                <li>Typical daily steps & water</li>
+                <li>Tracking consistency & habits</li>
+                <li>Your lifestyle patterns & schedule</li>
+              </ul>
+            </div>
+            <div class="detail-block">
+              <h4>Graduate to Stage 2 When...</h4>
+              <ul class="checklist">
+                <li>Logging food 80–90% of days</li>
+                <li>Baseline steps & water established</li>
+                <li>Coach can read your maintenance calories</li>
+                <li>Communication rhythm is working</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 2 -->
+      <div class="stage-card" id="stage2" onclick="toggleStage('stage2')">
+        <div class="stage-dot">2</div>
+        <div class="you-here" id="yh2">You Are Here ✦</div>
+        <div class="stage-header">
+          <div class="stage-number">02</div>
+          <div class="stage-header-text">
+            <div class="stage-weeks">Weeks 4–6</div>
+            <div class="stage-title">The Prescription</div>
+            <div class="stage-subtitle">Your Custom Plan Begins</div>
+          </div>
+          <div class="stage-chevron">▼</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <div class="detail-block">
+              <h4>What's Happening</h4>
+              <p>You've earned it. This is where your coach lays out your full game plan — your deficit, your workouts, your specific goals. We'll also talk through your history and get ahead of the places people typically fall off.</p>
+            </div>
+            <div class="detail-block">
+              <h4>What to Expect</h4>
+              <p>Things get more intentional here. You'll have specific targets to hit. Progress should start to become visible. This is the beginning of your 12–16 week fat loss window.</p>
+            </div>
+            <div class="detail-block">
+              <h4>What's Being Prescribed</h4>
+              <ul>
+                <li>Your calorie or step-based deficit</li>
+                <li>Workout program (introduced gradually)</li>
+                <li>Daily step & hydration targets</li>
+                <li>Your non-negotiables & habit plan</li>
+              </ul>
+            </div>
+            <div class="detail-block">
+              <h4>What to Master</h4>
+              <ul class="checklist">
+                <li>Consistently hitting your nutrition targets</li>
+                <li>Getting to the gym & learning your workouts</li>
+                <li>Understanding & owning your plan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3 -->
+      <div class="stage-card" id="stage3" onclick="toggleStage('stage3')">
+        <div class="stage-dot">3</div>
+        <div class="you-here" id="yh3">You Are Here ✦</div>
+        <div class="stage-header">
+          <div class="stage-number">03</div>
+          <div class="stage-header-text">
+            <div class="stage-weeks">Weeks 7–12</div>
+            <div class="stage-title">The Work</div>
+            <div class="stage-subtitle">Active Fat Loss + Progressive Overload</div>
+          </div>
+          <div class="stage-chevron">▼</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <div class="detail-block">
+              <h4>Weeks 7–10: Momentum</h4>
+              <p>You're in it. This is where consistency builds real results. We'll also anticipate the most common slip point — when the novelty wears off and urgency drops — and make sure you push through it.</p>
+            </div>
+            <div class="detail-block">
+              <h4>Weeks 10–12: Optimization</h4>
+              <p>Locking in the habits that will stick forever. We'll review what's genuinely changed, what still needs work, and start having the bigger picture conversation about what comes next.</p>
+            </div>
+            <div class="detail-block">
+              <h4>What May Be Added</h4>
+              <ul>
+                <li>Cardio (only if progress stalls & food is already low)</li>
+                <li>Nutrient timing around workouts</li>
+                <li>Light food quality coaching</li>
+                <li>Step increases before calorie cuts</li>
+              </ul>
+            </div>
+            <div class="detail-block">
+              <h4>What to Master</h4>
+              <ul class="checklist">
+                <li>Training 3–4 days/week consistently</li>
+                <li>Tracking without overthinking it</li>
+                <li>Progressive overload in the gym</li>
+                <li>Knowing your personal obstacles & how to manage them</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 4 -->
+      <div class="stage-card" id="stage4" onclick="toggleStage('stage4')">
+        <div class="stage-dot">4</div>
+        <div class="you-here" id="yh4">You Are Here ✦</div>
+        <div class="stage-header">
+          <div class="stage-number">04</div>
+          <div class="stage-header-text">
+            <div class="stage-weeks">Weeks 12–13</div>
+            <div class="stage-title">The Reassessment</div>
+            <div class="stage-subtitle">Milestone Check-In + Your Goal Path Call</div>
+          </div>
+          <div class="stage-chevron">▼</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <div class="detail-block">
+              <h4>What's Happening</h4>
+              <p>Time to zoom out. Where did you start? Where are you now? Where do you still want to go? Your coach will review your full progress — physical, habit, and mindset — and map out what comes next.</p>
+            </div>
+            <div class="detail-block">
+              <h4>Two Paths Forward</h4>
+              <p><strong style="color:var(--teal-light)">Close to goal:</strong> Begin a 3–6 week reverse/maintenance phase, then transition to Legacy or continued support.<br><br><strong style="color:var(--teal-light)">More work to do:</strong> This is your Phase II conversation — options, timeline, and what the continued journey looks like.</p>
+            </div>
+            <div class="detail-block full">
+              <h4>What We Review Together</h4>
+              <ul>
+                <li>Physical progress: scale, measurements, how you feel</li>
+                <li>Habit shifts: what has genuinely changed for good vs. what's still inconsistent</li>
+                <li>Mindset growth: which limiting beliefs have shifted</li>
+                <li>Remaining goals and realistic timeline to get there</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 5 -->
+      <div class="stage-card" id="stage5" onclick="toggleStage('stage5')">
+        <div class="stage-dot">5</div>
+        <div class="you-here" id="yh5">You Are Here ✦</div>
+        <div class="stage-header">
+          <div class="stage-number">05</div>
+          <div class="stage-header-text">
+            <div class="stage-weeks">Weeks 13–16</div>
+            <div class="stage-title">The Next Chapter</div>
+            <div class="stage-subtitle">Phase II or Legacy — Your Continued Journey</div>
+          </div>
+          <div class="stage-chevron">▼</div>
+        </div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <div class="detail-block">
+              <h4>This Isn't Starting Over</h4>
+              <p>You have all the skills now. Phase II is where we use everything you've built — and finish the job. Most clients reach their full goal in 10–12 months total. That's not failure. That's the process working exactly as designed.</p>
+            </div>
+            <div class="detail-block">
+              <h4>About the Reverse Phase</h4>
+              <p>After a long cut, your metabolism needs to reset. A controlled 3–6 week reverse brings your calories back up, restores energy, improves gym performance, and sets your body up to respond faster and more efficiently in the next cut.</p>
+            </div>
+            <div class="detail-block">
+              <h4>Phase II Options</h4>
+              <ul>
+                <li><strong style="color:var(--teal-light)">4 months</strong> — Close to goal; mainly reverse + maintenance</li>
+                <li><strong style="color:var(--teal-light)">6 months</strong> — Most common; moderate remaining work</li>
+                <li><strong style="color:var(--teal-light)">8 months</strong> — Meaningful goals still ahead</li>
+                <li><strong style="color:var(--teal-light)">12 months</strong> — Comprehensive transformation</li>
+              </ul>
+            </div>
+            <div class="detail-block">
+              <h4>Legacy Program</h4>
+              <p>When you've reached your goal and are ready to maintain independently, Legacy gives you continued access to workouts, weekly group calls, and check-ins — without a dedicated 1:1 coach. It's your forever home.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline-track -->
+  </div><!-- /timeline-wrapper -->
+</div><!-- /view-roadmap -->
+
+
+<!-- ══════════════════════════════════ VIEW 2 — CALCULATOR ══════════════════════════════════ -->
+<div id="view-calculator" class="view">
+  <div class="calc-wrap">
+    <div class="hero-eyebrow">Goal Path Calculator</div>
+    <h2 class="calc-hero-title">Let's Map Your Journey</h2>
+    <p class="calc-hero-sub">Fill in your numbers and goals. We'll recommend how much time you need, what phase you're likely in, and when you'll be ready for Legacy.</p>
+
+    <div class="calc-form">
+      <div class="form-group">
+        <label class="form-label">Current Weight (lbs)</label>
+        <input class="form-input" type="number" id="currentWeight" placeholder="e.g. 158">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Goal Weight (lbs)</label>
+        <input class="form-input" type="number" id="goalWeight" placeholder="e.g. 138">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pounds Lost So Far</label>
+        <input class="form-input" type="number" id="lostSoFar" placeholder="e.g. 6" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Weeks into Program</label>
+        <input class="form-input" type="number" id="weeksIn" placeholder="e.g. 5" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Primary Goal Type</label>
+        <select class="form-select" id="goalType">
+          <option value="fat_loss">Fat Loss</option>
+          <option value="recomp">Body Recomposition</option>
+          <option value="gain">Muscle Gain / Reverse</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Phase (self-assessed)</label>
+        <select class="form-select" id="currentPhase">
+          <option value="1">Stage 1 — Foundation</option>
+          <option value="2">Stage 2 — Prescription</option>
+          <option value="3">Stage 3 — The Work</option>
+          <option value="4">Stage 4 — Reassessment</option>
+          <option value="5">Stage 5 — Next Chapter</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">What obstacles or challenges are showing up right now?</label>
+        <textarea class="form-textarea" id="obstacles" placeholder="e.g. Struggling with consistency on weekends, travel coming up, finding it hard to get to the gym..."></textarea>
+      </div>
+    </div>
+
+    <div class="goals-grid">
+      <div class="goals-box">
+        <h3>🏆 Top Wins So Far</h3>
+        <div class="mini-input-row"><span class="mini-num">1</span><input class="mini-input" id="win1" placeholder="e.g. Lost 8 lbs in first 6 weeks"></div>
+        <div class="mini-input-row"><span class="mini-num">2</span><input class="mini-input" id="win2" placeholder="e.g. Tracking consistently for 4 weeks"></div>
+        <div class="mini-input-row"><span class="mini-num">3</span><input class="mini-input" id="win3" placeholder="e.g. Drinking 80oz water daily"></div>
+      </div>
+      <div class="goals-box">
+        <h3>🎯 Next 3 Goals</h3>
+        <div class="mini-input-row"><span class="mini-num">1</span><input class="mini-input" id="goal1" placeholder="e.g. Hit 145 lbs"></div>
+        <div class="mini-input-row"><span class="mini-num">2</span><input class="mini-input" id="goal2" placeholder="e.g. Consistently lifting 4x/week"></div>
+        <div class="mini-input-row"><span class="mini-num">3</span><input class="mini-input" id="goal3" placeholder="e.g. Master eating out without going over"></div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="runCalculator()">Calculate My Goal Path →</button>
+
+    <!-- RESULTS -->
+    <div class="results-panel" id="resultsPanel">
+      <hr class="results-divider">
+      <div class="results-eyebrow">Your Personalized Recommendation</div>
+      <div class="results-headline" id="resultsHeadline">You need approximately <strong id="totalMonthsDisplay">—</strong> more months of coaching.</div>
+
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Progress toward goal weight</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+
+      <div class="rec-grid">
+        <div class="rec-card">
+          <div class="rec-card-label">Pounds to Goal</div>
+          <div class="rec-card-value" id="poundsToGoal">—</div>
+          <div class="rec-card-unit">lbs remaining</div>
+        </div>
+        <div class="rec-card highlight">
+          <div class="rec-card-label">Estimated Cut Time</div>
+          <div class="rec-card-value" id="cutWeeks">—</div>
+          <div class="rec-card-unit">weeks in deficit</div>
+        </div>
+        <div class="rec-card">
+          <div class="rec-card-label">Reverse + Buffer</div>
+          <div class="rec-card-value" id="reverseWeeks">—</div>
+          <div class="rec-card-unit">weeks to maintain</div>
+        </div>
+      </div>
+
+      <div class="rec-summary" id="recSummary"></div>
+
+      <!-- Phase Timeline Bar -->
+      <div class="phase-timeline" id="phaseTimeline">
+        <div class="phase-block phase-obs" id="ptObs">Obs</div>
+        <div class="phase-block phase-cut" id="ptCut">Cut</div>
+        <div class="phase-block phase-rev" id="ptRev">Reverse</div>
+        <div class="phase-block phase-p2"  id="ptP2">Phase II</div>
+        <div class="phase-block phase-leg" id="ptLeg">Legacy</div>
+      </div>
+      <div class="phase-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1a4a45"></div> Observation</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal-dark)"></div> Active Cut</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Reverse/Maintenance</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal-light)"></div> Phase II Coaching</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent-gold)"></div> Legacy Program</div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="next-steps-title">Your Recommended Next Steps</div>
+      <ul class="steps-list" id="nextStepsList"></ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ VIEW 3 — TRACKER ══════════════════════════════════ -->
+<div id="view-tracker" class="view">
+  <div class="tracker-wrap">
+    <div class="hero-eyebrow">My Progress</div>
+    <h2 class="tracker-hero-title">Track Your Journey</h2>
+    <p class="tracker-hero-sub">Check off milestones, log your wins, and keep notes between coaching calls. Your data saves in this browser session.</p>
+
+    <div class="tracker-meta" id="trackerMeta">
+      <div class="meta-card">
+        <div class="meta-card-label">Pounds Lost</div>
+        <div class="meta-card-val" id="tLost">—</div>
+        <div class="meta-card-unit">so far</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Pounds to Goal</div>
+        <div class="meta-card-val" id="tToGo">—</div>
+        <div class="meta-card-unit">remaining</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-card-label">Current Stage</div>
+        <div class="meta-card-val" id="tStage" style="font-size:1.2rem">—</div>
+        <div class="meta-card-unit">phase I roadmap</div>
+      </div>
+    </div>
+
+    <div class="tracker-section">
+      <div class="tracker-section-title">Stage 1 — Foundation Checklist</div>
+      <ul class="milestone-list" id="ml1">
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Logging food 80–90% of days consistently</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Baseline steps established (know my average)</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Baseline water established</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Coach has a clear read on my maintenance calories</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Communication rhythm with coach is working</li>
+      </ul>
+    </div>
+
+    <div class="tracker-section">
+      <div class="tracker-section-title">Stage 2–3 — Active Phase Checklist</div>
+      <ul class="milestone-list" id="ml2">
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Received and understand my full plan from coach</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Hitting calorie/macro targets consistently</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Getting to the gym on scheduled days</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Seeing progressive overload in workouts</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Maintaining step goal</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Have completed Benchmark Call (Weeks 6–8)</li>
+      </ul>
+    </div>
+
+    <div class="tracker-section">
+      <div class="tracker-section-title">Stage 4–5 — Milestone Checklist</div>
+      <ul class="milestone-list" id="ml3">
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Completed Goal Path Call (Weeks 12–13)</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Discussed and decided on Phase II or Legacy</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Understand my reverse/maintenance plan</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Can identify at least one permanent food swap I've made</li>
+        <li class="milestone-item"><div class="milestone-check" onclick="toggleCheck(this)"></div>Know my biggest remaining obstacle and have a plan for it</li>
+      </ul>
+    </div>
+
+    <div class="tracker-section">
+      <div class="tracker-section-title">My Wins, Goals & Notes</div>
+      <div class="tracker-notes">
+        <textarea class="notes-textarea" id="clientNotes" placeholder="Use this space to capture your wins, things you're working on, questions for your coach, or anything you want to remember..."></textarea>
+        <div>
+          <button class="save-btn" onclick="saveNotes()">Save Notes</button>
+          <span class="save-confirm" id="saveConfirm">Saved ✓</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  Transform Strong — Client Journey Tool &nbsp;|&nbsp; transformstrong.com
+</footer>
+
+<script>
+// ── VIEW SWITCHING ──
+function switchView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'tracker') syncTrackerFromCalc();
+}
+
+// ── STAGE ACCORDION ──
+function toggleStage(id) {
+  const card = document.getElementById(id);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// ── SET "YOU ARE HERE" ──
+function setYouAreHere(stageNum) {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('yh' + i).style.display = (i === stageNum) ? 'block' : 'none';
+  }
+}
+
+// ── CALCULATOR ──
+function runCalculator() {
+  const cw   = parseFloat(document.getElementById('currentWeight').value) || 0;
+  const gw   = parseFloat(document.getElementById('goalWeight').value) || 0;
+  const lost = parseFloat(document.getElementById('lostSoFar').value) || 0;
+  const wi   = parseFloat(document.getElementById('weeksIn').value) || 0;
+  const gt   = document.getElementById('goalType').value;
+  const cp   = parseInt(document.getElementById('currentPhase').value);
+
+  if (!cw || !gw) { alert('Please enter your current weight and goal weight.'); return; }
+
+  const totalToLose   = (cw + lost) - gw;  // total from starting weight
+  const remaining     = cw - gw;
+  const pct           = totalToLose > 0 ? Math.min(100, Math.round((lost / totalToLose) * 100)) : 0;
+
+  // ── RATE: ~0.5–1 lb/week conservative average ──
+  let weeklyRate = 0.75;
+  if (gt === 'recomp')  weeklyRate = 0;  // no weight loss target
+  if (gt === 'gain')    weeklyRate = 0;
+
+  let cutWeeksNeeded = 0;
+  if (gt === 'fat_loss' && remaining > 0) {
+    cutWeeksNeeded = Math.ceil(remaining / weeklyRate);
+    cutWeeksNeeded = Math.max(cutWeeksNeeded, 4);
+  }
+
+  // Weeks already in deficit (after obs phase ~3 weeks)
+  const deficitWeeksAlready = Math.max(0, wi - 3);
+  const deficitRemaining    = Math.max(0, cutWeeksNeeded - deficitWeeksAlready);
+
+  // Reverse/maintenance buffer: 6 weeks + 2 month buffer (8 weeks total)
+  const reverseWeeks = 8;
+
+  // Total additional weeks needed
+  const totalWeeksNeeded = deficitRemaining + reverseWeeks;
+  const totalMonths      = Math.ceil(totalWeeksNeeded / 4.33);
+
+  // Round up to nearest valid Phase II length: 4, 6, 8, 12
+  let p2Length = 4;
+  if (totalMonths > 4 && totalMonths <= 6)  p2Length = 6;
+  else if (totalMonths > 6 && totalMonths <= 8) p2Length = 8;
+  else if (totalMonths > 8) p2Length = 12;
+  if (totalMonths <= 0 || (remaining <= 0 && gt !== 'recomp')) p2Length = 0;
+
+  // ── Build summary text ──
+  let summaryText = '';
+  let headline    = '';
+  let nextSteps   = [];
+
+  if (gt === 'fat_loss') {
+    if (remaining <= 3 && remaining >= 0) {
+      headline = `You're <strong>close to your goal</strong> — the focus now shifts to making it permanent.`;
+      summaryText = `With only about <strong>${remaining.toFixed(1)} lbs</strong> left to go, you're in the final stretch. After reaching your goal weight, we recommend a <strong>6–8 week reverse and maintenance phase</strong> with your coach before transitioning to Legacy. That gives your body time to adapt, your habits time to cement, and your metabolism time to fully reset.`;
+      nextSteps = [
+        'Continue your current cut to goal weight',
+        'Schedule your Goal Path Call to plan your reverse phase',
+        'Begin discussing Legacy membership with your coach',
+        'Identify 1–2 habits you still want to make permanent before graduating'
+      ];
+    } else if (remaining <= 0) {
+      headline = `You've <strong>reached your goal weight</strong> — time to make it last.`;
+      summaryText = `Incredible work. Now the most important thing you can do is <strong>not skip the reverse phase</strong>. Jumping straight to eating freely after a deficit often leads to weight regain. A controlled 6–8 week reverse brings your calories up gradually, resets your metabolism, and sets you up to maintain without struggle. Legacy is your next home.`;
+      nextSteps = [
+        'Begin your controlled reverse with coach guidance',
+        'Discuss transitioning to Legacy Program',
+        'Set maintenance calorie targets',
+        'Identify your "forever" non-negotiable habits'
+      ];
+      p2Length = 0;
+    } else {
+      headline = `You need approximately <strong>${p2Length > 0 ? p2Length + ' more months' : 'to complete Phase I'}</strong> of coached support.`;
+      summaryText = `Based on <strong>${remaining.toFixed(1)} lbs</strong> still to go at an average rate of 0.5–1 lb/week, you're looking at approximately <strong>${deficitRemaining} more weeks in a deficit</strong>, followed by a <strong>${reverseWeeks}-week reverse and maintenance window</strong> (including a 30–60 day buffer to truly solidify your maintenance habits). That puts you at roughly <strong>${p2Length} months</strong> of continued coaching before you're ready to graduate to Legacy. This recommendation rounds up to the nearest Transform Strong Phase II contract length (4, 6, 8, or 12 months) to make sure you have enough time — not just to lose the weight, but to keep it off.`;
+      nextSteps = [
+        'Complete your Phase I program through Week 16',
+        'Have your Goal Path Call (Weeks 12–13) to confirm Phase II plan',
+        `Plan for a ${p2Length}-month Phase II contract`,
+        'Expect a 6–8 week reverse/maintenance phase built into that timeline',
+        'Legacy Program awaits when your coach says you\'re ready to graduate'
+      ];
+    }
+  } else if (gt === 'recomp') {
+    headline = `Body recomposition is a <strong>longer, more nuanced journey</strong> — and worth every week.`;
+    summaryText = `Recomposition (losing fat while building muscle simultaneously) typically takes <strong>6–12+ months</strong> of consistent effort and is harder to measure on the scale alone. Progress shows up in how your clothes fit, how you look, and how you perform in the gym. Your coach will track this through measurements, photos, and strength progress rather than the scale. Plan for at least <strong>${p2Length > 0 ? p2Length : 6} months</strong> of continued coaching, and make sure your protein intake and training are dialed in as your top priorities.`;
+    nextSteps = [
+      'Focus on strength metrics, not just the scale',
+      'Take measurements and photos every 4 weeks',
+      'Prioritize protein targets and progressive overload',
+      'Discuss Phase II options with your coach at Week 12–13',
+      'Legacy is the long-term home when your habits are fully autonomous'
+    ];
+    p2Length = p2Length > 0 ? p2Length : 6;
+  } else {
+    headline = `Building muscle and reversing is a <strong>patient process</strong> — your body will thank you.`;
+    summaryText = `Reverse dieting and muscle building phases typically run <strong>12–20 weeks minimum</strong> for meaningful results. The goal is to eat more, train hard, and let your body rebuild. Progress here is measured by strength gains, energy levels, and body composition — not weight loss. Your coach will guide you through the calorie increase gradually to minimize fat gain while maximizing muscle response.`;
+    nextSteps = [
+      'Follow your coach\'s calorie increase schedule (no rushing this)',
+      'Track strength progress in the gym week over week',
+      'Monitor energy, sleep, and recovery as key signals',
+      'Plan for continued coaching through your reverse phase',
+      'Discuss when and whether a cut phase will follow'
+    ];
+    p2Length = 6;
+  }
+
+  // ── Render results ──
+  document.getElementById('resultsPanel').classList.add('visible');
+  document.getElementById('resultsHeadline').innerHTML = headline;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('poundsToGoal').textContent = Math.max(0, remaining).toFixed(1);
+  document.getElementById('cutWeeks').textContent = deficitRemaining > 0 ? deficitRemaining : '✓';
+  document.getElementById('reverseWeeks').textContent = reverseWeeks;
+  document.getElementById('totalMonthsDisplay').textContent = p2Length > 0 ? p2Length + ' months' : 'Legacy ready';
+  document.getElementById('recSummary').innerHTML = summaryText;
+
+  setTimeout(() => {
+    document.getElementById('progressBarFill').style.width = pct + '%';
+  }, 100);
+
+  // Phase timeline proportions
+  const obsW  = Math.max(5, Math.round(3 / Math.max(wi + totalWeeksNeeded, 16) * 100));
+  const cutW  = Math.max(5, Math.round((deficitWeeksAlready + deficitRemaining) / Math.max(wi + totalWeeksNeeded, 16) * 100));
+  const revW  = Math.max(5, Math.round(reverseWeeks / Math.max(wi + totalWeeksNeeded + reverseWeeks, 20) * 100));
+  const p2W   = p2Length > 0 ? Math.max(5, Math.round((p2Length * 4) / Math.max(wi + totalWeeksNeeded + p2Length*4, 30) * 100)) : 0;
+  const legW  = 8;
+  document.getElementById('ptObs').style.flex  = obsW;
+  document.getElementById('ptCut').style.flex  = cutW;
+  document.getElementById('ptRev').style.flex  = revW;
+  document.getElementById('ptP2').style.flex   = p2W;
+  document.getElementById('ptLeg').style.flex  = legW;
+  document.getElementById('ptP2').style.display  = p2W > 0 ? 'flex' : 'none';
+
+  // Next steps
+  const nl = document.getElementById('nextStepsList');
+  nl.innerHTML = nextSteps.map((s, i) => `
+    <li><div class="step-icon">${i+1}</div><div>${s}</div></li>
+  `).join('');
+
+  // Sync "You Are Here" on roadmap
+  setYouAreHere(cp);
+
+  document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── TRACKER SYNC ──
+function syncTrackerFromCalc() {
+  const cw   = parseFloat(document.getElementById('currentWeight').value) || null;
+  const gw   = parseFloat(document.getElementById('goalWeight').value) || null;
+  const lost = parseFloat(document.getElementById('lostSoFar').value) || null;
+  const cp   = document.getElementById('currentPhase').value;
+  const stageNames = ['','The Foundation','The Prescription','The Work','The Reassessment','The Next Chapter'];
+
+  document.getElementById('tLost').textContent  = lost !== null ? lost + ' lbs' : '—';
+  document.getElementById('tToGo').textContent  = (cw && gw) ? Math.max(0, cw - gw).toFixed(1) + ' lbs' : '—';
+  document.getElementById('tStage').textContent = stageNames[cp] || '—';
+}
+
+// ── MILESTONE CHECKBOXES ──
+function toggleCheck(el) {
+  el.classList.toggle('done');
+}
+
+// ── SAVE NOTES ──
+function saveNotes() {
+  const confirm = document.getElementById('saveConfirm');
+  confirm.classList.add('show');
+  setTimeout(() => confirm.classList.remove('show'), 2000);
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  // hide all you-are-here badges initially
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('yh' + i).style.display = 'none';
+  }
+  // open stage 1 by default
+  toggleStage('stage1');
+});
+</script>
+</body>
+</html>
