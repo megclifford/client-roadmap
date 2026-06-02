@@ -9,53 +9,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{
-  --teal:#1a7a70;--tl:#24a99b;--td:#0f4e47;
-  --blk:#0d0d0d;--char:#181d1d;--char2:#1e2424;
-  --gm:#6b7272;--gl:#bec8c7;--wh:#fff;--gold:#c9a84c;--rl:10px;
+  --teal:#1a7a70;--tl:#1a7a70;--td:#0f4e47;
+  --blk:#ffffff;--char:#f7f9f9;--char2:#eef2f2;
+  --gm:#7a8a8a;--gl:#2a3535;--wh:#0d1414;--gold:#b08a20;--rl:10px;
+  --border:#dde6e5;--muted:#a8b8b8;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-height:100vh;overflow-x:hidden;}
-
+body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-height:100vh;overflow-x:hidden;}
+ 
 /* ── HEADER ── */
-.hdr{background:var(--blk);border-bottom:1px solid rgba(26,122,112,.22);padding:0 32px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:58px;}
+.hdr{background:#ffffff;border-bottom:1px solid rgba(26,122,112,.18);box-shadow:0 1px 12px rgba(0,0,0,.06);padding:0 32px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:58px;}
 .logo-wrap{display:flex;align-items:center;height:30px;}
 .logo-img{height:26px;width:auto;display:block;}
-.logo-txt{font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--wh);display:none;}
+.logo-txt{font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#1a2424;display:none;}
 .logo-txt span{color:var(--tl);}
-.nav-tabs{display:flex;gap:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3px;}
-.ntab{padding:6px 16px;border-radius:5px;font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--gl);border:none;background:transparent;white-space:nowrap;}
+.nav-tabs{display:flex;gap:3px;background:#f0f4f4;border:1px solid rgba(26,122,112,.18);border-radius:8px;padding:3px;}
+.ntab{padding:6px 16px;border-radius:5px;font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;color:#5a7070;border:none;background:transparent;white-space:nowrap;}
 .ntab.on{background:var(--teal);color:var(--wh);}
-.ntab:hover:not(.on){background:rgba(255,255,255,.07);color:var(--wh);}
-
+.ntab:hover:not(.on){background:rgba(26,122,112,.1);color:var(--teal);}
+ 
 .view{display:none;}.view.on{display:block;}
-
+ 
 /* ── HERO ── */
 .hero{padding:52px 40px 32px;max-width:940px;margin:0 auto;text-align:center;}
 .eyebrow{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--tl);margin-bottom:14px;font-weight:700;}
-.htitle{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.15;color:var(--wh);margin-bottom:14px;}
+.htitle{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.15;color:#0f1e1e;margin-bottom:14px;}
 .htitle .accent{color:var(--tl);}
-.hsub{font-size:.9rem;color:var(--gl);line-height:1.72;max-width:500px;font-weight:300;margin:0 auto;}
-
+.hsub{font-size:.9rem;color:#5a7070;line-height:1.72;max-width:500px;font-weight:300;margin:0 auto;}
+ 
 /* ── CALL CIRCLES ── */
 .circles-wrap{max-width:840px;margin:0 auto 36px;padding:0 40px;}
-.circles-lbl{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gm);margin-bottom:18px;text-align:center;font-weight:600;}
+.circles-lbl{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:#7a8a8a;margin-bottom:18px;text-align:center;font-weight:600;}
 .circles-row{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;}
 .ccircle{display:flex;flex-direction:column;align-items:center;cursor:pointer;text-decoration:none;transition:transform .2s;}
 .ccircle:hover{transform:translateY(-4px);}
 .cring{width:78px;height:78px;border-radius:50%;border:2px solid rgba(26,122,112,.38);background:rgba(26,122,112,.09);display:flex;align-items:center;justify-content:center;margin-bottom:10px;transition:all .22s;}
 .ccircle:hover .cring,.cring.active{border-color:var(--tl);background:rgba(26,122,112,.2);}
 .cwk{font-family:'Montserrat',sans-serif;font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tl);font-weight:700;text-align:center;line-height:1.4;}
-.cname{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gl);font-weight:700;text-align:center;max-width:90px;margin-top:2px;}
+.cname{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:#2a3535;font-weight:700;text-align:center;max-width:90px;margin-top:2px;}
 .cdesc{font-size:.7rem;color:var(--gm);text-align:center;max-width:90px;margin-top:2px;line-height:1.35;}
-
+ 
 /* ── TIMELINE ── */
 .tl-wrap{max-width:840px;margin:0 auto;padding:0 40px 72px;}
 .tl-track{position:relative;padding-left:48px;}
-.tl-track::before{content:'';position:absolute;left:12px;top:24px;bottom:24px;width:2px;background:linear-gradient(to bottom,var(--teal),rgba(26,122,112,.08));}
-.scard{position:relative;margin-bottom:12px;border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);background:var(--char);overflow:hidden;transition:border-color .22s;cursor:pointer;}
-.scard:hover{border-color:rgba(26,122,112,.45);}
-.scard.open{border-color:var(--teal);}
+.tl-track::before{content:'';position:absolute;left:12px;top:24px;bottom:24px;width:2px;background:linear-gradient(to bottom,var(--teal),rgba(26,122,112,.15));}
+.scard{position:relative;margin-bottom:12px;border:1px solid #dde8e6;border-radius:var(--rl);background:#ffffff;overflow:hidden;transition:all .22s;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.scard:hover{border-color:var(--teal);box-shadow:0 2px 12px rgba(26,122,112,.12);}
+.scard.open{border-color:var(--teal);box-shadow:0 2px 16px rgba(26,122,112,.15);}
 .sdot{position:absolute;left:-41px;top:22px;width:20px;height:20px;border-radius:50%;background:var(--td);border:2px solid var(--tl);z-index:2;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:700;color:var(--tl);}
 .scard.open .sdot{background:var(--teal);}
 .yhere{display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:'Montserrat',sans-serif;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;background:var(--teal);color:var(--wh);padding:4px 10px;border-radius:20px;font-weight:700;white-space:nowrap;}
@@ -64,33 +65,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
 .scard.open .snum{color:var(--tl);}
 .stxt{flex:1;}
 .swks{font-family:'Montserrat',sans-serif;font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:var(--tl);font-weight:700;margin-bottom:3px;}
-.stitle{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--wh);}
+.stitle{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#0f1e1e;}
 .ssub{font-size:.73rem;color:var(--gm);margin-top:2px;}
 .schev{font-size:.68rem;color:var(--gm);transition:transform .22s;padding-right:6px;flex-shrink:0;}
 .scard.open .schev{transform:rotate(180deg);color:var(--tl);}
-.sbody{display:none;padding:0 22px 22px;border-top:1px solid rgba(255,255,255,.04);}
+.sbody{display:none;padding:0 22px 22px;border-top:1px solid #eef2f2;}
 .scard.open .sbody{display:block;}
 .sinner{padding-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:560px){.sinner{grid-template-columns:1fr;}}
-.db{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:8px;padding:14px 15px;}
+.db{background:#f7fafa;border:1px solid #dde8e6;border-radius:8px;padding:14px 15px;}
 .db.full{grid-column:1/-1;}
 .db h4{font-family:'Montserrat',sans-serif;font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tl);margin-bottom:8px;font-weight:700;}
-.db p,.db li{font-size:.82rem;color:var(--gl);line-height:1.65;font-weight:300;}
+.db p,.db li{font-size:.82rem;color:#2a3535;line-height:1.65;font-weight:400;}
 .db ul{padding-left:14px;}.db li{margin-bottom:4px;}
 .ckl{list-style:none!important;padding-left:0!important;}
 .ckl li{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;}
 .ckl li::before{content:'☐';color:var(--tl);font-size:.85rem;flex-shrink:0;margin-top:1px;}
-
+ 
 /* ══ GOAL PATH VIEW ══ */
 .gp-wrap{max-width:900px;margin:0 auto;padding:44px 40px 80px;}
-.gp-title{font-family:'Montserrat',sans-serif;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--wh);margin-bottom:6px;}
-.gp-sub{font-size:.86rem;color:var(--gm);margin-bottom:28px;font-weight:300;}
-
+.gp-title{font-family:'Montserrat',sans-serif;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0f1e1e;margin-bottom:6px;}
+.gp-sub{font-size:.86rem;color:#5a7070;margin-bottom:28px;font-weight:300;}
+ 
 /* client name bar */
-.cname-bar{display:flex;gap:9px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 15px;margin-bottom:28px;flex-wrap:wrap;}
+.cname-bar{display:flex;gap:9px;align-items:center;background:#ffffff;border:1px solid #dde8e6;border-radius:8px;padding:12px 15px;margin-bottom:28px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .cname-lbl{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tl);font-weight:700;white-space:nowrap;}
-.cname-inp{flex:1;min-width:160px;background:transparent;border:none;color:var(--wh);font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none;}
-.cname-inp::placeholder{color:var(--gm);}
+.cname-inp{flex:1;min-width:160px;background:transparent;border:none;color:#1a2424;font-size:.88rem;font-family:'DM Sans',sans-serif;outline:none;}
+.cname-inp::placeholder{color:#a0b0b0;}
 .cact{padding:7px 13px;border-radius:5px;font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .cact-teal{border:1px solid rgba(26,122,112,.35);background:rgba(26,122,112,.14);color:var(--tl);}
 .cact-teal:hover{background:rgba(26,122,112,.3);}
@@ -98,45 +99,45 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
 .cact-red:hover{background:rgba(255,80,80,.18);}
 .save-ok{font-size:.72rem;color:var(--tl);opacity:0;transition:opacity .3s;font-family:'Montserrat',sans-serif;font-weight:600;}
 .save-ok.show{opacity:1;}
-
+ 
 /* two-col layout */
 .gp-main{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
 @media(max-width:700px){.gp-main{grid-template-columns:1fr;}}
-
-.panel{background:var(--char);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:20px;}
+ 
+.panel{background:#ffffff;border:1px solid #dde8e6;border-radius:var(--rl);padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .panel+.panel{margin-top:14px;}
 .ptitle{font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tl);margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .ptitle::after{content:'';flex:1;height:1px;background:rgba(26,122,112,.18);}
-
+ 
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;}
 .flbl{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;color:var(--tl);font-weight:700;}
-.finp,.fsel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:5px;padding:9px 11px;color:var(--wh);font-size:.85rem;font-family:'DM Sans',sans-serif;transition:border-color .2s;outline:none;width:100%;}
-.finp:focus,.fsel:focus{border-color:var(--tl);background:rgba(26,122,112,.06);}
-.fsel option{background:var(--char);color:var(--wh);}
-.fhint{font-size:.67rem;color:var(--gm);}
+.finp,.fsel{background:#f7fafa;border:1px solid #ccdad8;border-radius:5px;padding:9px 11px;color:#1a2424;font-size:.85rem;font-family:'DM Sans',sans-serif;transition:all .2s;outline:none;width:100%;}
+.finp:focus,.fsel:focus{border-color:var(--teal);background:#f0f8f7;box-shadow:0 0 0 3px rgba(26,122,112,.1);}
+.fsel option{background:#ffffff;color:#1a2424;}
+.fhint{font-size:.67rem;color:#7a8a8a;}
 .mini-r{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
 .mini-n{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(26,122,112,.4);min-width:14px;}
-.mini-i{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:7px 9px;color:var(--wh);font-size:.8rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
-.mini-i:focus{border-color:var(--tl);}
-
+.mini-i{flex:1;background:#f7fafa;border:1px solid #ccdad8;border-radius:4px;padding:7px 9px;color:#1a2424;font-size:.8rem;font-family:'DM Sans',sans-serif;outline:none;transition:all .2s;}
+.mini-i:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,112,.1);}
+ 
 /* checklist boxes in their own panels */
 .ck-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 @media(max-width:700px){.ck-row{grid-template-columns:1fr;}}
-.ck-panel{background:var(--char);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:18px;}
+.ck-panel{background:#ffffff;border:1px solid #dde8e6;border-radius:var(--rl);padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .ck-panel-title{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tl);margin-bottom:12px;font-weight:700;display:flex;align-items:center;gap:7px;}
 .ck-panel-title::after{content:'';flex:1;height:1px;background:rgba(26,122,112,.16);}
 .ck-list{list-style:none;}
-.ck-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.79rem;color:var(--gl);font-weight:300;line-height:1.5;}
+.ck-item{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid #eef2f2;font-size:.79rem;color:#2a3535;font-weight:400;line-height:1.5;}
 .ck-item:last-child{border-bottom:none;}
-.ck-box{width:19px;height:19px;border-radius:50%;border:2px solid rgba(255,255,255,.14);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
+.ck-box{width:19px;height:19px;border-radius:50%;border:2px solid #b0c4c2;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
 .ck-box.done{background:var(--teal);border-color:var(--teal);}
 .ck-box.done::after{content:'✓';font-size:.62rem;color:white;}
-
+ 
 /* notes full width */
-.notes-panel{background:var(--char);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:20px;margin-bottom:20px;}
-.notes-ta{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:12px;color:var(--gl);font-size:.83rem;font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.72;resize:vertical;min-height:88px;outline:none;}
-.notes-ta:focus{border-color:var(--tl);}
-
+.notes-panel{background:#ffffff;border:1px solid #dde8e6;border-radius:var(--rl);padding:20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.notes-ta{width:100%;background:#f7fafa;border:1px solid #ccdad8;border-radius:6px;padding:12px;color:#1a2424;font-size:.83rem;font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.72;resize:vertical;min-height:88px;outline:none;}
+.notes-ta:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,112,.1);}
+ 
 /* calculate + action row */
 .action-row{display:flex;gap:11px;flex-wrap:wrap;align-items:center;}
 .btn-calc{padding:13px 26px;background:var(--teal);border:none;border-radius:7px;color:var(--wh);font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
@@ -146,40 +147,40 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
 .btn-pdf{display:inline-flex;align-items:center;gap:6px;padding:13px 18px;background:rgba(201,168,76,.13);border:1px solid rgba(201,168,76,.32);border-radius:7px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .btn-pdf:hover{background:rgba(201,168,76,.25);}
 .btn-pdf.loading{opacity:.6;cursor:wait;}
-
+ 
 /* RESULTS */
 .res-wrap{margin-top:28px;}
 .res-hr{border:none;border-top:1px solid rgba(26,122,112,.18);margin-bottom:26px;}
 .res-ey{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--tl);margin-bottom:5px;font-weight:700;}
-.res-hl{font-family:'Montserrat',sans-serif;font-size:clamp(1.1rem,2.8vw,1.7rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--wh);margin-bottom:20px;line-height:1.25;}
+.res-hl{font-family:'Montserrat',sans-serif;font-size:clamp(1.1rem,2.8vw,1.7rem);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#0f1e1e;margin-bottom:20px;line-height:1.25;}
 .res-hl .accent{color:var(--tl);}
 .prog-sec{margin-bottom:20px;}
-.prog-lbls{display:flex;justify-content:space-between;font-size:.72rem;color:var(--gm);margin-bottom:6px;}
+.prog-lbls{display:flex;justify-content:space-between;font-size:.72rem;color:#5a7070;margin-bottom:6px;}
 .prog-lbls b{font-family:'Montserrat',sans-serif;color:var(--tl);font-weight:700;}
-.prog-trk{height:11px;background:rgba(255,255,255,.07);border-radius:20px;overflow:hidden;}
+.prog-trk{height:11px;background:#dde8e6;border-radius:20px;overflow:hidden;}
 .prog-fill{height:100%;background:linear-gradient(to right,var(--td),var(--tl));border-radius:20px;transition:width 1.1s cubic-bezier(.4,0,.2,1);width:0%;}
 .stat-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
 @media(max-width:500px){.stat-g{grid-template-columns:1fr;}}
-.sc{background:var(--char);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:15px 13px;text-align:center;}
+.sc{background:#ffffff;border:1px solid #dde8e6;border-radius:9px;padding:15px 13px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04);}
 .sc.hi{background:rgba(26,122,112,.12);border-color:rgba(26,122,112,.32);}
 .sc-lbl{font-family:'Montserrat',sans-serif;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gm);margin-bottom:6px;}
 .sc.hi .sc-lbl{color:var(--tl);}
-.sc-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--wh);line-height:1;margin-bottom:2px;}
+.sc-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:#0f1e1e;line-height:1;margin-bottom:2px;}
 .sc.hi .sc-val{color:var(--tl);}
 .sc-unit{font-size:.68rem;color:var(--gm);}
-.narr{background:rgba(26,122,112,.07);border:1px solid rgba(26,122,112,.16);border-left:3px solid var(--teal);border-radius:8px;padding:16px 18px;margin-bottom:18px;font-size:.84rem;color:var(--gl);line-height:1.78;font-weight:300;}
-.narr strong{color:var(--wh);font-weight:500;}
+.narr{background:#f0f8f7;border:1px solid rgba(26,122,112,.2);border-left:3px solid var(--teal);border-radius:8px;padding:16px 18px;margin-bottom:18px;font-size:.84rem;color:#1a2424;line-height:1.78;font-weight:400;}
+.narr strong{color:#0f1e1e;font-weight:600;}
 .ph-bar{display:flex;border-radius:7px;overflow:hidden;height:40px;margin-bottom:10px;}
 .phb{display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:.54rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.93);text-align:center;transition:flex .85s cubic-bezier(.4,0,.2,1);min-width:0;overflow:hidden;white-space:nowrap;padding:0 5px;}
 .ph-obs{background:#1a4a45;}.ph-cut{background:var(--td);}.ph-rev{background:var(--teal);}.ph-p2{background:var(--tl);}.ph-leg{background:var(--gold);color:var(--blk);}
 .ph-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
 .leg-i{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--gl);}
 .leg-d{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
-.site-footer{border-top:1px solid rgba(255,255,255,.04);padding:16px 40px;text-align:center;font-size:.67rem;color:rgba(255,255,255,.16);letter-spacing:.08em;}
+.site-footer{border-top:1px solid #dde8e6;padding:16px 40px;text-align:center;font-size:.67rem;color:#a0b0b0;letter-spacing:.08em;}
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <header class="hdr">
   <a href="https://transformstrong.com" target="_blank" rel="noopener" style="text-decoration:none;display:flex;align-items:center;height:30px;">
@@ -193,8 +194,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
     <button class="ntab"     onclick="sw('goalpath',this)">Goal Path + Progress</button>
   </nav>
 </header>
-
-
+ 
+ 
 <!-- ══════════════ VIEW 1: ROADMAP ══════════════ -->
 <div id="view-roadmap" class="view on">
   <div class="hero">
@@ -202,7 +203,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
     <h1 class="htitle">Your Transform Strong<br><span class="accent">Client Roadmap</span></h1>
     <p class="hsub">This is your map. You'll always know exactly where you are, what comes next, and what success looks like at every stage.</p>
   </div>
-
+ 
   <div class="circles-wrap">
     <div class="circles-lbl">Your Coaching Calls — Click to Navigate</div>
     <div class="circles-row">
@@ -228,7 +229,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
       </a>
     </div>
   </div>
-
+ 
   <div class="tl-wrap"><div class="tl-track">
     <!-- STAGE 1 -->
     <div class="scard" id="stage1" onclick="tog('stage1')">
@@ -311,15 +312,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
     </div>
   </div></div>
 </div><!-- /roadmap -->
-
-
+ 
+ 
 <!-- ══════════════ VIEW 2: GOAL PATH + PROGRESS ══════════════ -->
 <div id="view-goalpath" class="view">
 <div class="gp-wrap">
   <div class="eyebrow">Goal Path + Progress</div>
   <h2 class="gp-title">Your Journey, <span style="color:var(--tl)">Mapped</span></h2>
   <p class="gp-sub">Fill in your stats, check off milestones, add notes, then export a PDF summary. Data saves by client name on this device.</p>
-
+ 
   <!-- Client name bar -->
   <div class="cname-bar">
     <span class="cname-lbl">Client</span>
@@ -329,7 +330,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
     <button class="cact cact-red"  onclick="clearClient()">Clear</button>
     <span class="save-ok" id="saveOK">Saved ✓</span>
   </div>
-
+ 
   <!-- Two-col: stats left, wins/goals right -->
   <div class="gp-main" style="margin-bottom:18px;">
     <!-- LEFT col -->
@@ -356,6 +357,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
             <option value="4">Stage 4 — The Reassessment</option>
             <option value="5">Stage 5 — The Next Chapter</option>
           </select></div>
+        <div class="fg"><label class="flbl">Current Phase End Date</label><input class="finp" type="date" id="phaseEnd"><span class="fhint">Last day of this coaching phase</span></div>
+        <div class="fg"><label class="flbl">Cut Start Date</label><input class="finp" type="date" id="cutStart"><span class="fhint">When you officially began your deficit this cycle</span></div>
+        <div class="fg"><label class="flbl">Program Start Date (optional)</label><input class="finp" type="date" id="progStart"><span class="fhint">When you first started coaching — used for total context only</span></div>
       </div>
     </div>
     <!-- RIGHT col -->
@@ -378,7 +382,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
       </div>
     </div>
   </div>
-
+ 
   <!-- Checklists: 2-per-row grid -->
   <div class="ck-row">
     <div class="ck-panel">
@@ -423,13 +427,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
       </ul>
     </div>
   </div>
-
+ 
   <!-- Notes full width -->
   <div class="notes-panel">
     <div class="ptitle">Coach Notes</div>
     <textarea class="notes-ta" id="clientNotes" rows="4" placeholder="Session notes, limiting beliefs identified, key observations, questions to revisit next call…"></textarea>
   </div>
-
+ 
   <!-- Action buttons -->
   <div class="action-row">
     <button class="btn-calc" onclick="runCalc()">Calculate Goal Path →</button>
@@ -437,26 +441,49 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
     <button class="btn-pdf" id="pdfBtn" onclick="exportPDF()">⬇ Download PDF Summary</button>
     <span class="save-ok" id="saveOK2"></span>
   </div>
-
+ 
   <!-- RESULTS (shown after calculate) -->
   <div class="res-wrap" id="resWrap" style="display:none;">
     <hr class="res-hr">
     <div class="res-ey">Your Personalized Recommendation</div>
     <div class="res-hl" id="resHL"></div>
-
+ 
     <div class="prog-sec">
       <div class="prog-lbls"><span>Progress toward goal weight</span><b id="progPct">0%</b></div>
       <div class="prog-trk"><div class="prog-fill" id="progFill"></div></div>
     </div>
-
+ 
     <div class="stat-g">
       <div class="sc"><div class="sc-lbl">Pounds to Goal</div><div class="sc-val" id="sRemain">—</div><div class="sc-unit">lbs remaining</div></div>
       <div class="sc hi"><div class="sc-lbl">Est. Cut Time Remaining</div><div class="sc-val" id="sCutWk">—</div><div class="sc-unit">weeks in deficit</div></div>
       <div class="sc"><div class="sc-lbl">Reverse + Buffer</div><div class="sc-val" id="sRevWk">—</div><div class="sc-unit">weeks to maintain</div></div>
     </div>
-
+ 
+    <!-- PROJECTION CARDS -->
+    <div id="projCards" style="display:none;margin-bottom:18px;">
+      <div style="font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:10px;">Projections</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:linear-gradient(135deg,#f0f8f7,#e8f4f2);border:1px solid rgba(26,122,112,.25);border-radius:10px;padding:16px;">
+          <div style="font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px;">By End of This Phase</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#5a7070;margin-bottom:4px;" id="projEndDateLbl"></div>
+          <div style="display:flex;gap:16px;margin-top:6px;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#0f1e1e;line-height:1;" id="projEndWt">—</div><div style="font-size:.7rem;color:#7a8a8a;">proj. weight</div></div>
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#0f1e1e;line-height:1;" id="projEndBFEl">—</div><div style="font-size:.7rem;color:#7a8a8a;">est. body fat %</div></div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,#f7f4ee,#f0ece0);border:1px solid rgba(176,138,32,.3);border-radius:10px;padding:16px;" id="projP2Card">
+          <div style="font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;" id="projP2Title">With Phase II</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#7a6a40;margin-bottom:4px;" id="projP2SubLbl"></div>
+          <div style="display:flex;gap:16px;margin-top:6px;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#0f1e1e;line-height:1;" id="projP2WtEl">—</div><div style="font-size:.7rem;color:#7a8a8a;">proj. weight</div></div>
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#0f1e1e;line-height:1;" id="projP2BFEl">—</div><div style="font-size:.7rem;color:#7a8a8a;">est. body fat %</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
     <div class="narr" id="resNarr"></div>
-
+ 
     <div class="ph-bar" id="phBar">
       <div class="phb ph-obs" id="ptObs">Obs</div>
       <div class="phb ph-cut" id="ptCut">Active Cut</div>
@@ -474,13 +501,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--blk);color:var(--wh);min-
   </div>
 </div>
 </div><!-- /goalpath -->
-
+ 
 <footer class="site-footer">Transform Strong — Client Journey Tool &nbsp;·&nbsp; transformstrong.com</footer>
-
+ 
 <script>
 // ── STORED calc data for PDF
 let calcData={};
-
+ 
 // ── VIEW SWITCH
 function sw(name,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
@@ -488,7 +515,7 @@ function sw(name,btn){
   document.getElementById('view-'+name).classList.add('on');
   btn.classList.add('on');
 }
-
+ 
 // ── STAGE ACCORDION
 function tog(id){
   const c=document.getElementById(id);
@@ -505,7 +532,7 @@ function jumpTo(id){
 function setYouHere(n){
   for(let i=1;i<=5;i++) document.getElementById('yh'+i).style.display=(i===n)?'block':'none';
 }
-
+ 
 // ── HELPERS
 function parseHeight(s){
   if(!s)return null; s=s.trim();
@@ -520,32 +547,32 @@ function estBF(wLbs,hIn,age){
 }
 function v(id){return document.getElementById(id);}
 function vv(id){return parseFloat(v(id).value)||0;}
-
+ 
 // ── CALCULATE
 function runCalc(){
   const sw=vv('sw')||vv('cw'), cw=vv('cw'), gw=vv('gw'), wi=vv('wi');
   const gt=v('gtype').value, cp=parseInt(v('cstage').value);
   const ht=parseHeight(v('ht').value), age=vv('age')||null;
-
+ 
   if(!cw||!gw){alert('Please enter your current weight and goal weight.');return;}
-
+ 
   const lost=Math.max(0,sw-cw);
   const remaining=Math.max(0,cw-gw);
   const totalJourney=Math.max(1,sw-gw);
   const pct=Math.min(100,Math.round((lost/totalJourney)*100));
-
+ 
   const defWksDone=Math.max(0,wi); // field is now "weeks in deficit" directly
   const actualRate=(defWksDone>0&&lost>0)?(lost/defWksDone):0;
   const projRate=actualRate>0?Math.min(1.5,Math.max(0.3,actualRate*0.85)):0.75;
-
+ 
   let cutWkLeft=0;
   if(gt==='fat_loss'&&remaining>0) cutWkLeft=Math.ceil(remaining/projRate);
-
+ 
   const totalCutWks=defWksDone+cutWkLeft;
   const revWks=totalCutWks>=16?10:8;
   const totalAddlWks=cutWkLeft+revWks;
   const totalAddlMo=totalAddlWks/4.33;
-
+ 
   let p2Mo=4;
   if(totalAddlMo>4&&totalAddlMo<=6) p2Mo=6;
   else if(totalAddlMo>6&&totalAddlMo<=8) p2Mo=8;
@@ -553,11 +580,11 @@ function runCalc(){
   if(remaining<=0&&gt==='fat_loss') p2Mo=0;
   if(gt==='recomp') p2Mo=Math.max(p2Mo,6);
   if(gt==='gain') p2Mo=Math.max(p2Mo,6);
-
+ 
   const bfNow=estBF(cw,ht,age);
   const bfGoal=estBF(gw,ht,age);
   const bfTxt=(bfNow&&bfGoal)?` At your current stats, you're estimated at roughly <strong>${bfNow}% body fat</strong>; your goal weight puts you closer to <strong>${bfGoal}%</strong>.`:'';
-
+ 
   // Headline & narrative
   let hl='', narr='';
   if(gt==='fat_loss'){
@@ -589,10 +616,50 @@ function runCalc(){
     hl=`Reverse / Build Phase: <span class="accent">A Strategic Investment in Your Future Cuts</span>`;
     narr=`Reverse dieting and muscle building run <strong>12–20 weeks minimum</strong> for meaningful results. Expect the scale to move up modestly — that's healthy and expected. Your coach will guide the calorie increase gradually to minimize fat gain while maximizing muscle response.${bfTxt}`;
   }
-
+ 
+  // ── PROJECT end-of-phase weight and body fat ──
+  let projEndWeight = null, projEndBF = null;
+  let projP2Weight = null, projP2BF = null;
+  let weeksToPhaseEnd = null;
+  let phaseEndLabel = '';
+  let totalProgramDays = null;
+ 
+  const todayDate = new Date();
+ 
+  if(v('phaseEnd').value){
+    const endDate = new Date(v('phaseEnd').value);
+    weeksToPhaseEnd = Math.max(0, Math.round((endDate - todayDate) / (7*24*60*60*1000)));
+    phaseEndLabel = endDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+ 
+    if(gt === 'fat_loss' && projRate > 0){
+      // Weeks remaining in deficit capped by phase end
+      const deficitWksLeft = Math.min(weeksToPhaseEnd, cutWkLeft);
+      projEndWeight = Math.max(gw, cw - (deficitWksLeft * projRate));
+      projEndBF = estBF(projEndWeight, ht, age);
+    }
+  }
+ 
+  if(v('cutStart').value){
+    const cutDate = new Date(v('cutStart').value);
+    const actualCutDays = Math.round((todayDate - cutDate) / (24*60*60*1000));
+    // Use this to cross-check weeks in deficit entered manually (just informational)
+  }
+ 
+  if(v('progStart').value){
+    const progDate = new Date(v('progStart').value);
+    totalProgramDays = Math.round((todayDate - progDate) / (24*60*60*1000));
+  }
+ 
+  // Phase II projection: from projected end-of-phase weight, apply same rate for p2Mo months
+  if(projEndWeight && p2Mo > 0 && gt === 'fat_loss'){
+    const p2DeficitWks = p2Mo * 4.33 * 0.65; // assume ~65% of p2 time in active deficit
+    projP2Weight = Math.max(gw, projEndWeight - (p2DeficitWks * projRate * 0.75)); // slower rate in p2
+    projP2BF = estBF(projP2Weight, ht, age);
+  }
+ 
   // Store for PDF
-  calcData={sw,cw,gw,wi,gt,cp,pct,remaining,cutWkLeft,revWks,p2Mo,actualRate,bfNow,bfGoal,totalAddlWks,lost,narrHTML:narr,hlText:document.createElement('div').appendChild(document.createTextNode(''))?hl.replace(/<[^>]+>/g,''):hl,narrText:narr.replace(/<[^>]+>/g,'')};
-
+  calcData={sw,cw,gw,wi,gt,cp,pct,remaining,cutWkLeft,revWks,p2Mo,actualRate,bfNow,bfGoal,totalAddlWks,lost,narrHTML:narr,projEndWeight,projEndBF,projP2Weight,projP2BF,weeksToPhaseEnd,phaseEndLabel,totalProgramDays,phaseEndRaw:v('phaseEnd').value,cutStartRaw:v('cutStart').value,progStartRaw:v('progStart').value,hlText:document.createElement('div').appendChild(document.createTextNode(''))?hl.replace(/<[^>]+>/g,''):hl,narrText:narr.replace(/<[^>]+>/g,'')};
+ 
   // Render
   v('resWrap').style.display='block';
   v('resHL').innerHTML=hl;
@@ -602,7 +669,7 @@ function runCalc(){
   v('sRevWk').textContent=revWks;
   v('resNarr').innerHTML=narr;
   setTimeout(()=>{ v('progFill').style.width=pct+'%'; },120);
-
+ 
   const totalViz=Math.max(wi+totalAddlWks+revWks,20);
   v('ptObs').style.flex=Math.max(2,Math.round((Math.min(wi,3)/totalViz)*100));
   v('ptCut').style.flex=Math.max(4,Math.round(((defWksDone+cutWkLeft)/totalViz)*100));
@@ -610,19 +677,41 @@ function runCalc(){
   const p2F=p2Mo>0?Math.max(6,Math.round((p2Mo*4.33/totalViz)*100)):0;
   v('ptP2').style.flex=p2F; v('ptP2').style.display=p2F>0?'flex':'none';
   v('ptLeg').style.flex=5;
-
+ 
   setYouHere(cp);
+ 
+  // Populate projection cards
+  if(projEndWeight){
+    v('projCards').style.display='block';
+    v('projEndDateLbl').textContent = phaseEndLabel ? 'Phase ends ' + phaseEndLabel : '';
+    v('projEndWt').textContent = projEndWeight.toFixed(1) + ' lbs';
+    v('projEndBFEl').textContent = projEndBF ? projEndBF + '%' : '—';
+    if(projP2Weight){
+      v('projP2Card').style.display='';
+      v('projP2Title').textContent = 'After ' + p2Mo + '-Month Phase II';
+      v('projP2WtEl').textContent = projP2Weight.toFixed(1) + ' lbs';
+      v('projP2BFEl').textContent = projP2BF ? projP2BF + '%' : '—';
+      const p2EndDate = new Date(v('phaseEnd').value);
+      p2EndDate.setMonth(p2EndDate.getMonth() + p2Mo);
+      v('projP2SubLbl').textContent = 'Est. completion ' + p2EndDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+    } else {
+      v('projP2Card').style.display='none';
+    }
+  } else {
+    v('projCards').style.display='none';
+  }
+ 
   v('resWrap').scrollIntoView({behavior:'smooth',block:'start'});
-
+ 
   // auto-save to localStorage
   localStorage.setItem('ts_calc_last',JSON.stringify(calcData));
 }
-
+ 
 // ── CHECKBOXES
 function tck(el){ el.classList.toggle('done'); }
 function getCks(listId){ return Array.from(document.querySelectorAll('#'+listId+' .ck-box')).map(x=>x.classList.contains('done')); }
 function setCks(listId,arr){ const items=document.querySelectorAll('#'+listId+' .ck-box'); arr&&arr.forEach((b,i)=>{if(items[i])items[i].classList.toggle('done',b);}); }
-
+ 
 // ── LOCAL STORAGE
 function clientKey(n){ return 'ts_client_'+n.trim().toLowerCase().replace(/\s+/g,'_'); }
 function saveClient(){
@@ -630,7 +719,7 @@ function saveClient(){
   if(!name){alert('Enter a client name first.');return;}
   const data={
     name,savedAt:new Date().toISOString(),
-    sw:v('sw').value,cw:v('cw').value,gw:v('gw').value,wi:v('wi').value,
+    sw:v('sw').value,cw:v('cw').value,gw:v('gw').value,wi:v('wi').value,phaseEnd:v('phaseEnd').value,cutStart:v('cutStart').value,progStart:v('progStart').value,
     ht:v('ht').value,age:v('age').value,
     gtype:v('gtype').value,cstage:v('cstage').value,
     win1:v('win1').value,win2:v('win2').value,win3:v('win3').value,
@@ -662,20 +751,20 @@ function clearClient(){
   if(!name||!confirm('Clear all saved data for "'+name+'"?'))return;
   localStorage.removeItem(clientKey(name));
   document.querySelectorAll('.ck-box').forEach(x=>x.classList.remove('done'));
-  ['sw','cw','gw','wi','ht','age','win1','win2','win3','goal1','goal2','goal3','obstacles','clientNotes'].forEach(id=>v(id).value='');
+  ['sw','cw','gw','wi','ht','age','win1','win2','win3','goal1','goal2','goal3','obstacles','clientNotes','phaseEnd','cutStart','progStart'].forEach(id=>v(id).value='');
   v('resWrap').style.display='none'; calcData={};
   alert('Cleared data for "'+name+'".');
 }
-
+ 
 // ── PDF EXPORT (real download via jsPDF + html2canvas)
 async function exportPDF(){
   const btn=v('pdfBtn');
   btn.classList.add('loading'); btn.textContent='⏳ Generating PDF…';
-
+ 
   const clientName=v('clientName').value.trim()||'Client';
   const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const stages=['','The Foundation','The Prescription','The Work','The Reassessment','The Next Chapter'];
-
+ 
   // Collect all data
   const D={
     sw:v('sw').value||'—', cw:v('cw').value||'—', gw:v('gw').value||'—', wi:v('wi').value||'—',
@@ -690,17 +779,17 @@ async function exportPDF(){
     ck4:Array.from(document.querySelectorAll('#ml4 .ck-item')).map(li=>({text:li.textContent.trim(),done:li.querySelector('.ck-box').classList.contains('done')})),
     calc:calcData
   };
-
+ 
   // Build a hidden div and render it
   const teal='#1a7a70', tealLight='#24a99b', tealDark='#0f4e47';
   const gold='#c9a84c';
-
+ 
   function ckRow(items){
     return items.map(i=>`<div style="display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-bottom:1px solid #eef1f1;font-size:11px;color:#2a3030;line-height:1.45;">
       <div style="width:16px;height:16px;border-radius:50%;border:2px solid ${i.done?teal:'#bec8c7'};background:${i.done?teal:'#fff'};flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;font-weight:700;margin-top:1px;">${i.done?'✓':''}</div>
       <span style="${i.done?'text-decoration:line-through;color:#aab4b3;':''}">${i.text}</span></div>`).join('');
   }
-
+ 
   function phaseBar(d){
     if(!d||!d.cutWkLeft) return '';
     const total=Math.max((d.wi||0)+(d.totalAddlWks||0)+10,20);
@@ -718,10 +807,10 @@ async function exportPDF(){
     ];
     return `<div style="display:flex;border-radius:5px;overflow:hidden;height:28px;margin-bottom:8px;">${segs.join('')}</div>`;
   }
-
+ 
   const pdfHTML=`
   <div style="font-family:'Montserrat',sans-serif;background:#fff;width:760px;padding:0;">
-
+ 
     <!-- PAGE 1 -->
     <div style="padding:48px 52px 52px;min-height:1020px;page-break-after:always;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid ${teal};padding-bottom:18px;margin-bottom:26px;">
@@ -731,10 +820,10 @@ async function exportPDF(){
         </div>
         <div style="text-align:right;font-size:9px;color:#6b7272;">${today}</div>
       </div>
-
+ 
       <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#0d0d0d;margin-bottom:3px;line-height:1.1;">${clientName}</div>
       <div style="font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#6b7272;margin-bottom:24px;">Stage: ${D.stage}</div>
-
+ 
       <!-- WEIGHT STATS -->
       <div style="display:flex;gap:12px;margin-bottom:18px;">
         ${[['Starting Weight',D.sw,'lbs'],['Current Weight',D.cw,'lbs'],['Goal Weight',D.gw,'lbs'],['Weeks in Deficit',D.wi,'weeks']].map(([lbl,val,unit])=>`
@@ -744,18 +833,23 @@ async function exportPDF(){
           <div style="font-size:8px;color:#6b7272;">${unit}</div>
         </div>`).join('')}
       </div>
-
+ 
       <!-- PROGRESS BAR -->
       ${D.calc&&D.calc.pct!=null?`
       <div style="margin-bottom:18px;">
         <div style="display:flex;justify-content:space-between;font-size:9px;color:#6b7272;margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;"><span>Progress toward goal</span><span style="color:${teal};">${D.calc.pct}%</span></div>
         <div style="background:#e0eceb;border-radius:20px;height:10px;overflow:hidden;"><div style="width:${D.calc.pct}%;height:100%;background:linear-gradient(to right,${tealDark},${tealLight});border-radius:20px;"></div></div>
       </div>`:''}
-
+ 
       <!-- RECOMMENDATION -->
       ${D.calc&&D.calc.cutWkLeft!=null?`
       <div style="margin-bottom:16px;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:7px;">Recommendation</div>
+        ${(D.calc.progStartRaw||D.calc.cutStartRaw)?`<div style="margin-bottom:14px;display:flex;gap:14px;">
+        ${D.calc.progStartRaw?`<div style="flex:1;font-size:9px;color:#6b7272;">Program start: <strong style="color:#1a2020;">${new Date(D.calc.progStartRaw).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong></div>`:''}
+        ${D.calc.cutStartRaw?`<div style="flex:1;font-size:9px;color:#6b7272;">Cut start: <strong style="color:#1a2020;">${new Date(D.calc.cutStartRaw).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</strong></div>`:''}
+        ${D.calc.phaseEndLabel?`<div style="flex:1;font-size:9px;color:#6b7272;">Phase end: <strong style="color:#1a2020;">${D.calc.phaseEndLabel}</strong></div>`:''}
+      </div>`:''}
+      <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:7px;">Recommendation</div>
         <div style="display:flex;gap:10px;margin-bottom:12px;">
           <div style="flex:1;background:#f0f7f6;border:1px solid #c8e4e1;border-radius:6px;padding:11px;text-align:center;">
             <div style="font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:#6b7272;margin-bottom:5px;font-weight:600;">Lbs Remaining</div>
@@ -777,27 +871,44 @@ async function exportPDF(){
         </div>
         ${phaseBar(D.calc)}
         ${D.calc.actualRate>0?`<div style="font-size:9px;color:#6b7272;margin-top:4px;">Actual rate of loss: <strong style="color:#1a2020;">${D.calc.actualRate.toFixed(2)} lbs/week</strong>${D.calc.bfNow?` · Est. body fat now: <strong style="color:#1a2020;">${D.calc.bfNow}%</strong> → goal: <strong style="color:#1a2020;">${D.calc.bfGoal}%</strong>`:''}</div>`:''}
+        ${(D.calc.projEndWeight||D.calc.projP2Weight)?`
+        <div style="display:flex;gap:12px;margin-top:12px;">
+          ${D.calc.projEndWeight?`<div style="flex:1;background:linear-gradient(135deg,#f0f8f7,#e8f4f2);border:1px solid rgba(26,122,112,.25);border-radius:8px;padding:12px;">
+            <div style="font-size:7.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1a7a70;margin-bottom:6px;">By End of This Phase${D.calc.phaseEndLabel?' · '+D.calc.phaseEndLabel:''}</div>
+            <div style="display:flex;gap:16px;">
+              <div><div style="font-size:18px;font-weight:700;color:#0f1e1e;line-height:1;">${D.calc.projEndWeight.toFixed(1)} lbs</div><div style="font-size:8px;color:#6b7272;">proj. weight</div></div>
+              ${D.calc.projEndBF?`<div><div style="font-size:18px;font-weight:700;color:#0f1e1e;line-height:1;">${D.calc.projEndBF}%</div><div style="font-size:8px;color:#6b7272;">est. body fat</div></div>`:''}
+            </div>
+          </div>`:''}
+          ${D.calc.projP2Weight?`<div style="flex:1;background:linear-gradient(135deg,#f7f4ee,#f0ece0);border:1px solid rgba(176,138,32,.3);border-radius:8px;padding:12px;">
+            <div style="font-size:7.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#b08a20;margin-bottom:6px;">After ${D.calc.p2Mo}-Month Phase II</div>
+            <div style="display:flex;gap:16px;">
+              <div><div style="font-size:18px;font-weight:700;color:#0f1e1e;line-height:1;">${D.calc.projP2Weight.toFixed(1)} lbs</div><div style="font-size:8px;color:#6b7272;">proj. weight</div></div>
+              ${D.calc.projP2BF?`<div><div style="font-size:18px;font-weight:700;color:#0f1e1e;line-height:1;">${D.calc.projP2BF}%</div><div style="font-size:8px;color:#6b7272;">est. body fat</div></div>`:''}
+            </div>
+          </div>`:''}
+        </div>`:''}
         ${D.calc.narrHTML?`<div style="margin-top:10px;padding:12px 14px;background:#f0f7f6;border-left:3px solid #1a7a70;border-radius:0 6px 6px 0;font-size:10px;color:#1e2424;line-height:1.72;">${D.calc.narrHTML.replace(/<span[^>]*>/g,'').replace(/<\/span>/g,'')}</div>`:''}
       </div>`:''}
-
+ 
       <!-- WINS & GOALS -->
       <div style="display:flex;gap:14px;margin-bottom:14px;">
         ${D.wins.length?`<div style="flex:1;"><div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:8px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Top Wins So Far</div>${D.wins.map(w=>`<div style="display:flex;gap:7px;padding:5px 0;border-bottom:1px solid #f0f4f4;font-size:10.5px;color:#1e2424;"><span style="color:${teal};font-weight:700;">✦</span><span>${w}</span></div>`).join('')}</div>`:''}
         ${D.goals.length?`<div style="flex:1;"><div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:8px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Next 3 Goals</div>${D.goals.map(g=>`<div style="display:flex;gap:7px;padding:5px 0;border-bottom:1px solid #f0f4f4;font-size:10.5px;color:#1e2424;"><span style="color:${teal};font-weight:700;">→</span><span>${g}</span></div>`).join('')}</div>`:''}
       </div>
-
+ 
       ${D.obstacles?`<div style="margin-bottom:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:6px;border-bottom:1px solid #c8e4e1;padding-bottom:5px;">Current Obstacles</div><div style="font-size:10.5px;color:#1e2424;line-height:1.65;white-space:pre-wrap;background:#fafaf9;border:1px solid #e8eeee;border-radius:5px;padding:10px 12px;">${D.obstacles}</div></div>`:''}
-
+ 
       <div style="margin-top:auto;border-top:1px solid #e0e8e8;padding-top:12px;font-size:8px;color:#aab4b3;text-align:center;letter-spacing:.1em;text-transform:uppercase;position:absolute;bottom:48px;left:52px;right:52px;">Transform Strong — Client Journey Summary · transformstrong.com · Page 1 of 2</div>
     </div>
-
+ 
     <!-- PAGE 2 -->
     <div style="padding:48px 52px 52px;min-height:1020px;position:relative;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid ${teal};padding-bottom:16px;margin-bottom:24px;">
         <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${teal};">TRANSFORM STRONG — PROGRESS CHECKLIST</div>
         <div style="font-size:9px;color:#6b7272;font-weight:600;">${clientName}</div>
       </div>
-
+ 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
         <div>
           <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Stage 1 — Foundation</div>
@@ -816,58 +927,58 @@ async function exportPDF(){
           ${ckRow(D.ck4)}
         </div>
       </div>
-
+ 
       ${D.notes?`<div><div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:8px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Coach Notes</div><div style="font-size:10.5px;color:#1e2424;line-height:1.7;white-space:pre-wrap;background:#fafaf9;border:1px solid #e8eeee;border-left:3px solid ${teal};border-radius:0 5px 5px 0;padding:12px 14px;">${D.notes}</div></div>`:''}
-
+ 
       <div style="margin-top:auto;border-top:1px solid #e0e8e8;padding-top:12px;font-size:8px;color:#aab4b3;text-align:center;letter-spacing:.1em;text-transform:uppercase;position:absolute;bottom:48px;left:52px;right:52px;">Transform Strong — Client Journey Summary · transformstrong.com · Page 2 of 2</div>
     </div>
   </div>`;
-
+ 
   try{
     // Render via hidden div + html2canvas → jsPDF
     const container=document.createElement('div');
     container.style.cssText='position:fixed;left:-9999px;top:0;width:760px;background:#fff;z-index:-1;';
     container.innerHTML=pdfHTML;
     document.body.appendChild(container);
-
+ 
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
     const pageW=210, pageH=297;
-
+ 
     // Capture page 1
     const pages=container.querySelectorAll('div[style*="page-break-after"], div[style*="min-height:1020px"]');
     const allPages=[...container.children[0].children];
-
+ 
     const canvas1=await html2canvas(allPages[0],{scale:2,useCORS:true,backgroundColor:'#ffffff',width:760});
     const img1=canvas1.toDataURL('image/jpeg',0.95);
     pdf.addImage(img1,'JPEG',0,0,pageW,pageH);
-
+ 
     if(allPages[1]){
       pdf.addPage();
       const canvas2=await html2canvas(allPages[1],{scale:2,useCORS:true,backgroundColor:'#ffffff',width:760});
       const img2=canvas2.toDataURL('image/jpeg',0.95);
       pdf.addImage(img2,'JPEG',0,0,pageW,pageH);
     }
-
+ 
     document.body.removeChild(container);
     const fname=(v('clientName').value.trim()||'client').replace(/\s+/g,'-').toLowerCase()+'-journey-summary.pdf';
     pdf.save(fname);
-
+ 
   }catch(err){
     console.error('PDF error:',err);
     alert('PDF generation failed. Try saving client data first, then try again.');
   }
-
+ 
   btn.classList.remove('loading');
   btn.textContent='⬇ Download PDF Summary';
 }
-
+ 
 // ── INIT
 document.addEventListener('DOMContentLoaded',()=>{
   for(let i=1;i<=5;i++) document.getElementById('yh'+i).style.display='none';
   tog('stage1');
   const raw=localStorage.getItem('ts_calc_last');
-  if(raw){try{const d=JSON.parse(raw);['sw','cw','gw','wi','ht','age'].forEach(id=>{if(d[id])v(id).value=d[id];});}catch(e){}}
+  if(raw){try{const d=JSON.parse(raw);['sw','cw','gw','wi','ht','age','phaseEnd','cutStart','progStart'].forEach(id=>{if(d[id])v(id).value=d[id];});}catch(e){}}
 });
 </script>
 </body>
