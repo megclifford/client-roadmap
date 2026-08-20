@@ -82,6 +82,32 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
 .ckl li{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;}
 .ckl li::before{content:'☐';color:var(--tl);font-size:.85rem;flex-shrink:0;margin-top:1px;}
  
+/* ══ THREE PILLARS ══ */
+.pillars-wrap{max-width:740px;margin:0 auto 36px;padding:0 32px;}
+.pillars-lbl{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#7a8a8a;text-align:center;margin-bottom:18px;font-weight:600;}
+.pillars-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;}
+.pillar-circle{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s;}
+.pillar-circle:hover{transform:translateY(-4px);}
+.pc-ring{width:88px;height:88px;border-radius:50%;border:2px solid rgba(26,122,112,.3);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:10px;transition:all .22s;box-shadow:0 2px 10px rgba(0,0,0,.06);gap:3px;}
+.pillar-circle:hover .pc-ring,.pc-ring.pactive{border-color:var(--teal);background:rgba(26,122,112,.05);box-shadow:0 4px 18px rgba(26,122,112,.15);}
+.pc-icon{font-size:1.3rem;line-height:1;}
+.pc-name{font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700;text-align:center;line-height:1.2;padding:0 8px;}
+.pc-label{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:#2a3535;font-weight:700;text-align:center;max-width:100px;}
+.pc-sub{font-size:.68rem;color:#7a8a8a;text-align:center;max-width:100px;margin-top:2px;line-height:1.3;}
+ 
+/* pillar detail panel */
+.pillar-detail{display:none;background:#fff;border:2px solid var(--teal);border-radius:12px;margin-bottom:28px;overflow:hidden;animation:slideDown .26s ease;}
+.pillar-detail.open{display:block;}
+.pillar-detail-inner{padding:24px 28px;}
+.pd-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:16px;}
+.pd-title{font-family:'Montserrat',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal);}
+.pd-tagline{font-size:.8rem;color:#5a7070;margin-top:3px;font-weight:300;}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:640px){.pd-grid{grid-template-columns:1fr;}}
+.pd-box{background:#f7fafa;border:1px solid #dde8e6;border-radius:8px;padding:13px 14px;}
+.pd-box h4{font-family:'Montserrat',sans-serif;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:7px;font-weight:700;}
+.pd-box p{font-size:.81rem;color:#2a3535;line-height:1.65;}
+ 
 /* ══ ROADMAP — FUELED & FIT FORMULA ══ */
 .rm-wrap{max-width:1100px;margin:0 auto;padding:40px 32px 60px;}
 .rm-header{text-align:center;margin-bottom:36px;}
@@ -289,6 +315,33 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
     <div class="rm-tm">The Fueled &amp; Fit Formula™</div>
     <h1 class="rm-title">Client <span class="accent">Journey</span></h1>
     <div class="rm-timeline-note">⏱ Full program: approximately 12–18 months with a 1:1 coach</div>
+  </div>
+ 
+  <!-- 3 pillars -->
+  <div class="pillars-wrap">
+    <div class="pillars-lbl">Our 3 Pillars</div>
+    <div class="pillars-row">
+      <div class="pillar-circle" onclick="openPillar(1)">
+        <div class="pc-ring" id="pcr1"><div class="pc-icon">🔥</div><div class="pc-name">Fuel</div></div>
+        <div class="pc-label">The Fuel Protocol™</div>
+        <div class="pc-sub">Fix your metabolism from the inside out</div>
+      </div>
+      <div class="pillar-circle" onclick="openPillar(2)">
+        <div class="pc-ring" id="pcr2"><div class="pc-icon">💪</div><div class="pc-name">Fit</div></div>
+        <div class="pc-label">The Fit Protocol™</div>
+        <div class="pc-sub">Build the body with strength, not cardio</div>
+      </div>
+      <div class="pillar-circle" onclick="openPillar(3)">
+        <div class="pc-ring" id="pcr3"><div class="pc-icon">🤝</div><div class="pc-name">F3 Support</div></div>
+        <div class="pc-label">The F3 Support System™</div>
+        <div class="pc-sub">The structure that makes it stick</div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Pillar detail panel -->
+  <div class="pillar-detail" id="pillarDetail">
+    <div class="pillar-detail-inner" id="pillarDetailInner"></div>
   </div>
  
   <!-- 4 horizontal phase cards -->
@@ -550,6 +603,112 @@ function sw(name,btn){
 }
  
 // ── PHASE DATA ──
+// ── PILLAR DATA ──
+const PILLARS = {
+  1: {
+    name: 'The Fuel Protocol™',
+    tagline: 'The root cause fix — teach your body it's safe to burn again.',
+    boxes: [
+      {
+        h: 'The Problem',
+        body: 'Years of eating less and cutting more trains your body to conserve energy instead of burn it. The less you eat, the more stubborn it gets — which is why the diet that worked the first time stopped working the second.'
+      },
+      {
+        h: 'What We Do',
+        body: 'We figure out exactly how much fuel your body needs to perform and recover, then build your nutrition around hitting the right protein targets and eating in a way that fits your family's table — not around it. No off-limits foods. No separate meals.'
+      },
+      {
+        h: 'Why It Works',
+        body: 'When your body is fueled correctly, everything changes. Energy returns, cravings calm down, training becomes more effective, and fat loss becomes a natural byproduct of a body that finally feels safe enough to let go.'
+      }
+    ]
+  },
+  2: {
+    name: 'The Fit Protocol™',
+    tagline: 'The departure from cardio culture — build the shape you're after in the weight room.',
+    boxes: [
+      {
+        h: 'The Problem',
+        body: 'Cardio burns calories in the moment but does almost nothing to change how your body looks long-term. Paired with undereating, it breaks down the very muscle you need. You end up smaller maybe — but softer, tired, and right back where you started.'
+      },
+      {
+        h: 'What We Do',
+        body: 'We replace the cardio cycle with a strategic strength training program built around your body in your 30s and 40s. Three to four days a week, using progressive overload — workouts that get intentionally harder over time so your body keeps changing. We walk you through exactly what to do and how to progress week over week.'
+      },
+      {
+        h: 'Why It Works',
+        body: 'Lean muscle is the engine of a fast metabolism. Every pound you build raises the calories your body burns at rest — so you get leaner around the clock, not just during workouts. Six months in, your body is fundamentally different at the metabolic level.'
+      }
+    ]
+  },
+  3: {
+    name: 'The F3 Support System™',
+    tagline: 'The coaching infrastructure that makes everything else actually work in your real life.',
+    boxes: [
+      {
+        h: 'The Problem',
+        body: 'Most programs hand you a plan and leave you to figure out the rest. And for a few weeks it works — until real life happens. The kids get sick, work gets crazy, you miss a few days, and the guilt spiral starts. The plan that looked so good on paper becomes another thing you couldn't stick to. The plan failed you, not the other way around.'
+      },
+      {
+        h: 'What We Do',
+        body: 'From day one you have a dedicated coach who knows your schedule, your family, your history, and the obstacles that have derailed you before. Regular check-ins, a structured coaching cadence, direct access to your coach when you need to problem-solve — and a community of women in their 30s and 40s who genuinely get it.'
+      },
+      {
+        h: 'Why It Works',
+        body: 'Consistency is the only thing that actually creates results — and consistency doesn't come from motivation. It comes from structure, support, and someone in your corner who won't let you disappear when things get hard. This is what turns a program into habits, strength, and a relationship with your body you carry for the rest of your life.'
+      }
+    ]
+  }
+};
+ 
+let activePillar = null;
+ 
+function openPillar(n) {
+  const detail = document.getElementById('pillarDetail');
+  const inner  = document.getElementById('pillarDetailInner');
+ 
+  // Close if same
+  if(activePillar === n) {
+    detail.classList.remove('open');
+    document.getElementById('pcr'+n).classList.remove('pactive');
+    activePillar = null;
+    return;
+  }
+ 
+  // Deactivate all
+  for(let i=1;i<=3;i++) document.getElementById('pcr'+i).classList.remove('pactive');
+  document.getElementById('pcr'+n).classList.add('pactive');
+  activePillar = n;
+ 
+  const p = PILLARS[n];
+  const boxesHTML = p.boxes.map(b => `
+    <div class="pd-box">
+      <h4>${b.h}</h4>
+      <p>${b.body}</p>
+    </div>`).join('');
+ 
+  inner.innerHTML = `
+    <div class="pd-header">
+      <div>
+        <div class="pd-title">${p.name}</div>
+        <div class="pd-tagline">${p.tagline}</div>
+      </div>
+      <button class="ph-close" onclick="closePillar(event)">✕ Close</button>
+    </div>
+    <div class="pd-grid">${boxesHTML}</div>`;
+ 
+  detail.classList.add('open');
+  setTimeout(() => detail.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+}
+ 
+function closePillar(e) {
+  e.stopPropagation();
+  document.getElementById('pillarDetail').classList.remove('open');
+  if(activePillar) document.getElementById('pcr'+activePillar).classList.remove('pactive');
+  activePillar = null;
+}
+ 
+// ── PHASE DATA ──
 const PHASES = {
   1: {
     title: 'Reset™',
@@ -566,7 +725,7 @@ const PHASES = {
       },
       {
         h: 'What to Expect',
-        body: '<p>Weeks 1–3 are observation — we\'re learning your real baseline, not your "best behavior." The scale may not move right away and that\'s normal. By Week 4 you should see your first meaningful shift. By Week 16 you\'ll have lost 10–20 lbs and built a foundation you can trust.</p>'
+        body: '<p>Weeks 1–3 are observation — we\'re learning your real baseline, not your "best behavior." The scale may not move right away and that\'s normal. By Week 4 you should see your first meaningful shift. By Week 16 you\'ll have lost 15–20 lbs and built a foundation you can trust.</p>'
       }
     ],
     calls: ['Intro Call (Week 1)', 'Prescription Call (Weeks 3–4)', 'Benchmark Call (Weeks 6–8)', 'Goal Path Call (Weeks 12–13)'],
