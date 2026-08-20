@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transform Strong — Client Journey</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -81,6 +75,91 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
 .ckl{list-style:none!important;padding-left:0!important;}
 .ckl li{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;}
 .ckl li::before{content:'☐';color:var(--tl);font-size:.85rem;flex-shrink:0;margin-top:1px;}
+ 
+/* ══ ROADMAP — FUELED & FIT FORMULA ══ */
+.rm-wrap{max-width:1100px;margin:0 auto;padding:40px 32px 60px;}
+.rm-header{text-align:center;margin-bottom:36px;}
+.rm-tm{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:10px;}
+.rm-title{font-family:'Montserrat',sans-serif;font-size:clamp(1.3rem,3.5vw,2.1rem);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#0f1e1e;line-height:1.2;margin-bottom:8px;}
+.rm-title .accent{color:var(--teal);}
+.rm-tagline{font-size:.82rem;color:#5a7070;font-weight:300;margin-bottom:4px;}
+.rm-timeline-note{display:inline-flex;align-items:center;gap:6px;background:rgba(26,122,112,.07);border:1px solid rgba(26,122,112,.18);border-radius:20px;padding:5px 14px;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-top:10px;}
+ 
+/* 4-column horizontal phase grid */
+.phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-radius:12px;overflow:visible;position:relative;}
+@media(max-width:780px){.phase-grid{grid-template-columns:1fr 1fr;gap:12px;border-radius:0;}}
+@media(max-width:480px){.phase-grid{grid-template-columns:1fr;}}
+ 
+/* connector arrows between cards */
+.phase-grid::before{content:'';display:none;}
+ 
+.ph-card{position:relative;cursor:pointer;transition:all .24s;border:2px solid transparent;background:#fff;
+  border-radius:0;border-right:1px solid #dde8e6;
+}
+.ph-card:first-child{border-radius:12px 0 0 12px;}
+.ph-card:last-child{border-radius:0 12px 12px 0;border-right:2px solid transparent;}
+.ph-card:hover{z-index:2;transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,122,112,.15);}
+.ph-card.ph-active{z-index:3;transform:translateY(-4px);box-shadow:0 10px 36px rgba(26,122,112,.2);border-color:var(--teal);}
+@media(max-width:780px){
+  .ph-card{border-radius:10px!important;border-right:2px solid transparent!important;}
+}
+ 
+.ph-card-face{padding:26px 20px 20px;}
+.ph-num{font-family:'Montserrat',sans-serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px;}
+.ph-active .ph-num{color:var(--teal);}
+.ph-badge{display:inline-block;font-family:'Montserrat',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#0f1e1e;margin-bottom:2px;line-height:1.1;}
+.ph-active .ph-badge{color:var(--teal);}
+.ph-tm{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;color:var(--muted);letter-spacing:.06em;vertical-align:super;}
+.ph-active .ph-tm{color:var(--teal);}
+.ph-duration{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#7a8a8a;font-weight:600;margin:6px 0 10px;}
+.ph-tagline{font-size:.79rem;color:#3a4a4a;line-height:1.5;font-weight:400;}
+.ph-cta{display:flex;align-items:center;gap:4px;margin-top:14px;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;transition:color .2s;}
+.ph-card:hover .ph-cta,.ph-active .ph-cta{color:var(--teal);}
+.ph-arrow{font-size:.7rem;transition:transform .2s;}
+.ph-active .ph-arrow{transform:rotate(90deg);}
+ 
+/* color accent bars at top of each card */
+.ph-card::before{content:'';display:block;height:4px;width:100%;transition:background .24s;}
+.ph-card:nth-child(1)::before{background:#b0cac8;}
+.ph-card:nth-child(2)::before{background:#7aada8;}
+.ph-card:nth-child(3)::before{background:#3d8f87;}
+.ph-card:nth-child(4)::before{background:var(--teal);}
+.ph-card.ph-active:nth-child(1)::before{background:var(--teal);}
+.ph-card.ph-active:nth-child(2)::before{background:var(--teal);}
+.ph-card.ph-active:nth-child(3)::before{background:var(--teal);}
+.ph-card.ph-active:nth-child(4)::before{background:var(--gold);}
+ 
+/* expanded detail panel — sits below the grid */
+.ph-detail{display:none;background:#ffffff;border:2px solid var(--teal);border-radius:12px;margin-top:16px;overflow:hidden;animation:slideDown .28s ease;}
+.ph-detail.open{display:block;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+ 
+.ph-detail-inner{padding:28px 32px;}
+.ph-detail-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:20px;}
+.ph-detail-title{font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--teal);line-height:1.2;}
+.ph-detail-duration{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#7a8a8a;font-weight:600;margin-top:4px;}
+.ph-close{background:none;border:1px solid #dde8e6;border-radius:6px;padding:5px 10px;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#7a8a8a;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.ph-close:hover{border-color:var(--teal);color:var(--teal);}
+ 
+.ph-detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:680px){.ph-detail-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:440px){.ph-detail-grid{grid-template-columns:1fr;}}
+.ph-db{background:#f7fafa;border:1px solid #dde8e6;border-radius:8px;padding:14px 15px;}
+.ph-db.wide{grid-column:1/-1;}
+.ph-db h4{font-family:'Montserrat',sans-serif;font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-weight:700;}
+.ph-db p,.ph-db li{font-size:.82rem;color:#2a3535;line-height:1.65;}
+.ph-db ul{padding-left:14px;}.ph-db li{margin-bottom:4px;}
+ 
+/* narrative thread box */
+.ph-thread{background:linear-gradient(135deg,#f0f8f7,#e8f4f2);border:1px solid rgba(26,122,112,.22);border-left:3px solid var(--teal);border-radius:8px;padding:14px 16px;margin-bottom:16px;font-size:.84rem;color:#1a2424;line-height:1.75;font-style:italic;}
+.ph-thread strong{font-style:normal;color:var(--teal);font-weight:700;}
+ 
+/* coaching call pill */
+.call-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(26,122,112,.08);border:1px solid rgba(26,122,112,.2);border-radius:20px;padding:5px 13px;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:3px;}
+.call-pill::before{content:'📞';font-size:.7rem;}
+ 
+/* You Are Here badge */
+.yhere-h{display:none;position:absolute;top:10px;right:10px;font-family:'Montserrat',sans-serif;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;background:var(--teal);color:#fff;padding:3px 9px;border-radius:20px;font-weight:700;white-space:nowrap;z-index:4;}
  
 /* ══ GOAL PATH VIEW ══ */
 .gp-wrap{max-width:900px;margin:0 auto;padding:44px 40px 80px;}
@@ -198,120 +277,76 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
  
 <!-- ══════════════ VIEW 1: ROADMAP ══════════════ -->
 <div id="view-roadmap" class="view on">
-  <div class="hero">
-    <div class="eyebrow">Phase I — 4 Month Foundation</div>
-    <h1 class="htitle">Your Transform Strong<br><span class="accent">Client Roadmap</span></h1>
-    <p class="hsub">This is your map. You'll always know exactly where you are, what comes next, and what success looks like at every stage.</p>
+<div class="rm-wrap">
+ 
+  <div class="rm-header">
+    <div class="rm-tm">The Fueled &amp; Fit Formula™</div>
+    <h1 class="rm-title">Client <span class="accent">Journey</span></h1>
+    <div class="rm-timeline-note">⏱ Full program: approximately 12–18 months with a 1:1 coach</div>
   </div>
  
-  <div class="circles-wrap">
-    <div class="circles-lbl">Your Coaching Calls — Click to Navigate</div>
-    <div class="circles-row">
-      <a class="ccircle" href="#stage1" onclick="return jumpTo('stage1')">
-        <div class="cring"><div class="cwk">Week<br>1</div></div>
-        <div class="cname">Intro Call</div>
-        <div class="cdesc">Meet your coach, walk the roadmap</div>
-      </a>
-      <a class="ccircle" href="#stage2" onclick="return jumpTo('stage2')">
-        <div class="cring"><div class="cwk">Wks<br>3–4</div></div>
-        <div class="cname">Prescription Call</div>
-        <div class="cdesc">Full plan rollout, deficit &amp; goals</div>
-      </a>
-      <a class="ccircle" href="#stage3" onclick="return jumpTo('stage3')">
-        <div class="cring"><div class="cwk">Wks<br>6–8</div></div>
-        <div class="cname">Benchmark Call</div>
-        <div class="cdesc">Check-in, discuss next phase</div>
-      </a>
-      <a class="ccircle" href="#stage4" onclick="return jumpTo('stage4')">
-        <div class="cring"><div class="cwk">Wks<br>12–13</div></div>
-        <div class="cname">Goal Path Call</div>
-        <div class="cdesc">Full review, plan continued journey</div>
-      </a>
+  <!-- 4 horizontal phase cards -->
+  <div class="phase-grid" id="phaseGrid">
+ 
+    <!-- PHASE 1: RESET -->
+    <div class="ph-card" id="phc1" onclick="openPhase(1)">
+      <div class="yhere-h" id="yh1">You Are Here ✦</div>
+      <div class="ph-card-face">
+        <div class="ph-num">Phase 01 · Frontend</div>
+        <div class="ph-badge">Reset<span class="ph-tm">™</span></div>
+        <div class="ph-duration">16 Weeks</div>
+        <div class="ph-tagline">Build the foundation. Establish fueling. First big win at Week 4. Lose the first 15–20 lbs.</div>
+        <div class="ph-cta">Explore this phase <span class="ph-arrow">›</span></div>
+      </div>
+    </div>
+ 
+    <!-- PHASE 2: REVEAL -->
+    <div class="ph-card" id="phc2" onclick="openPhase(2)">
+      <div class="yhere-h" id="yh2">You Are Here ✦</div>
+      <div class="ph-card-face">
+        <div class="ph-num">Phase 02 · Backend</div>
+        <div class="ph-badge">Reveal<span class="ph-tm">™</span></div>
+        <div class="ph-duration">8 Months (minimum)</div>
+        <div class="ph-tagline">Break through plateaus. Accelerate to your fat loss goal. Protect everything you built in Reset.</div>
+        <div class="ph-cta">Explore this phase <span class="ph-arrow">›</span></div>
+      </div>
+    </div>
+ 
+    <!-- PHASE 3: RESTORE -->
+    <div class="ph-card" id="phc3" onclick="openPhase(3)">
+      <div class="yhere-h" id="yh3">You Are Here ✦</div>
+      <div class="ph-card-face">
+        <div class="ph-num">Phase 03 · Backend</div>
+        <div class="ph-badge">Restore<span class="ph-tm">™</span></div>
+        <div class="ph-duration">Approx. 3–4 Months</div>
+        <div class="ph-tagline">Fat loss goal achieved. Rebuild metabolism. Strategic reverse so you can eat more and protect the result permanently.</div>
+        <div class="ph-cta">Explore this phase <span class="ph-arrow">›</span></div>
+      </div>
+    </div>
+ 
+    <!-- PHASE 4: FREEDOM -->
+    <div class="ph-card" id="phc4" onclick="openPhase(4)">
+      <div class="yhere-h" id="yh4">You Are Here ✦</div>
+      <div class="ph-card-face">
+        <div class="ph-num">Phase 04 · Legacy</div>
+        <div class="ph-badge">Freedom<span class="ph-tm">™</span></div>
+        <div class="ph-duration">Approx. 3–4 Months</div>
+        <div class="ph-tagline">Full independence. Long-term maintenance, food freedom, lifestyle integration. No macro calculator forever.</div>
+        <div class="ph-cta">Explore this phase <span class="ph-arrow">›</span></div>
+      </div>
+    </div>
+ 
+  </div><!-- /phase-grid -->
+ 
+  <!-- Expanded detail panel (lives below grid, shared) -->
+  <div class="ph-detail" id="phDetail">
+    <div class="ph-detail-inner" id="phDetailInner">
+      <!-- filled by JS -->
     </div>
   </div>
  
-  <div class="tl-wrap"><div class="tl-track">
-    <!-- STAGE 1 -->
-    <div class="scard" id="stage1" onclick="tog('stage1')">
-      <div class="sdot">1</div><div class="yhere" id="yh1">You Are Here ✦</div>
-      <div class="shdr"><div class="snum">01</div><div class="stxt">
-        <div class="swks">Weeks 1–3</div>
-        <div class="stitle">The Foundation</div>
-        <div class="ssub">Observation &amp; Easy Wins</div>
-      </div><div class="schev">▼</div></div>
-      <div class="sbody"><div class="sinner">
-        <div class="db"><h4>What's Happening</h4><p>This is your starting point — not your results phase. We're learning your patterns, building tracking habits, and laying the foundation before your plan is prescribed. Think of it as the prerequisite course.</p></div>
-        <div class="db"><h4>What to Expect</h4><p>You may or may not see the scale move right away — and that's completely normal. Some clients see early progress just from tracking. Others need a few weeks to calibrate. Either way, this phase is working.</p></div>
-        <div class="db"><h4>What We're Watching</h4><ul><li>Your real-life calorie baseline</li><li>Typical daily steps &amp; water intake</li><li>Tracking consistency &amp; habits</li><li>Your lifestyle patterns &amp; schedule</li></ul></div>
-        <div class="db"><h4>Graduate to Stage 2 When…</h4><ul class="ckl"><li>Logging food 80–90% of days</li><li>Baseline steps &amp; water established</li><li>Coach can read your maintenance calories</li><li>Communication rhythm is working</li></ul></div>
-      </div></div>
-    </div>
-    <!-- STAGE 2 -->
-    <div class="scard" id="stage2" onclick="tog('stage2')">
-      <div class="sdot">2</div><div class="yhere" id="yh2">You Are Here ✦</div>
-      <div class="shdr"><div class="snum">02</div><div class="stxt">
-        <div class="swks">Weeks 4–6</div>
-        <div class="stitle">The Prescription</div>
-        <div class="ssub">Your Custom Plan Begins</div>
-      </div><div class="schev">▼</div></div>
-      <div class="sbody"><div class="sinner">
-        <div class="db"><h4>What's Happening</h4><p>You've earned it. Your coach lays out your full game plan — your deficit, your workouts, your specific goals. We'll also talk through your history and get ahead of the places people typically fall off.</p></div>
-        <div class="db"><h4>What to Expect</h4><p>Things get more intentional here. You'll have specific targets to hit. Progress should start to become visible. This is the beginning of your 12–16 week deficit window.</p></div>
-        <div class="db"><h4>What's Being Prescribed</h4><ul><li>Your calorie or step-based deficit</li><li>Workout program (introduced gradually)</li><li>Daily step &amp; hydration targets</li><li>Your non-negotiables &amp; habit plan</li></ul></div>
-        <div class="db"><h4>What to Master</h4><ul class="ckl"><li>Consistently hitting your nutrition targets</li><li>Getting to the gym &amp; learning your workouts</li><li>Understanding &amp; owning your plan</li></ul></div>
-      </div></div>
-    </div>
-    <!-- STAGE 3 -->
-    <div class="scard" id="stage3" onclick="tog('stage3')">
-      <div class="sdot">3</div><div class="yhere" id="yh3">You Are Here ✦</div>
-      <div class="shdr"><div class="snum">03</div><div class="stxt">
-        <div class="swks">Weeks 7–12</div>
-        <div class="stitle">The Work</div>
-        <div class="ssub">Active Fat Loss + Progressive Overload</div>
-      </div><div class="schev">▼</div></div>
-      <div class="sbody"><div class="sinner">
-        <div class="db"><h4>Weeks 7–10: Momentum</h4><p>You're in it. This is where consistency builds real results. We'll anticipate the most common slip point — around weeks 8–10 when the initial excitement wears off — so you push through it strong.</p></div>
-        <div class="db"><h4>Weeks 10–12: Optimization</h4><p>Locking in the habits that stick forever. We'll review what's genuinely changed, what still needs work, and begin the bigger-picture conversation about what comes next for you.</p></div>
-        <div class="db"><h4>What May Be Added</h4><ul><li>Cardio (only if progress stalls &amp; food is already low)</li><li>Nutrient timing around workouts</li><li>Light food quality coaching</li><li>Step increases before calorie cuts</li></ul></div>
-        <div class="db"><h4>What to Master</h4><ul class="ckl"><li>Training 3–4 days/week consistently</li><li>Tracking without overthinking it</li><li>Progressive overload in the gym</li><li>Managing your personal obstacles</li></ul></div>
-      </div></div>
-    </div>
-    <!-- STAGE 4 -->
-    <div class="scard" id="stage4" onclick="tog('stage4')">
-      <div class="sdot">4</div><div class="yhere" id="yh4">You Are Here ✦</div>
-      <div class="shdr"><div class="snum">04</div><div class="stxt">
-        <div class="swks">Weeks 12–13</div>
-        <div class="stitle">The Reassessment</div>
-        <div class="ssub">Milestone Check-In + Goal Path Call</div>
-      </div><div class="schev">▼</div></div>
-      <div class="sbody"><div class="sinner">
-        <div class="db"><h4>What's Happening</h4><p>Time to zoom out. Where did you start? Where are you now? Your coach reviews your full progress — physical, habit, and mindset — and maps out what comes next.</p></div>
-        <div class="db"><h4>Two Paths Forward</h4><p><strong style="color:var(--tl)">Close to goal:</strong> Begin a 3–6 week reverse/maintenance phase, then transition to Legacy.<br><br><strong style="color:var(--tl)">More work to do:</strong> This is your continued journey conversation — options, timeline, what Phase II looks like.</p></div>
-        <div class="db full"><h4>What We Review Together</h4><ul><li>Physical progress: scale, measurements, how you feel in your body</li><li>Habit shifts: what has genuinely changed for good vs. what's still inconsistent</li><li>Mindset growth: which limiting beliefs have shifted and what still needs work</li><li>Remaining goals and a realistic timeline to get there</li></ul></div>
-      </div></div>
-    </div>
-    <!-- STAGE 5 -->
-    <div class="scard" id="stage5" onclick="tog('stage5')">
-      <div class="sdot">5</div><div class="yhere" id="yh5">You Are Here ✦</div>
-      <div class="shdr"><div class="snum">05</div><div class="stxt">
-        <div class="swks">Weeks 13–16</div>
-        <div class="stitle">The Next Chapter</div>
-        <div class="ssub">Phase II or Legacy — Your Continued Journey</div>
-      </div><div class="schev">▼</div></div>
-      <div class="sbody"><div class="sinner">
-        <div class="db"><h4>This Isn't Starting Over</h4><p>You have all the skills now. Phase II is where we use everything you've built — and finish the job. Most clients reach their full goal in 10–12 months total. That's the process working exactly as designed.</p></div>
-        <div class="db"><h4>About the Reverse Phase</h4><p>After a long cut, your metabolism needs to reset. A controlled 3–6 week reverse restores energy, improves gym performance, and sets your body up to respond faster and more efficiently in your next cut.</p></div>
-        <div class="db"><h4>Phase II Options</h4><ul>
-          <li><strong style="color:var(--tl)">4 months</strong> — Close to goal; reverse + maintenance</li>
-          <li><strong style="color:var(--tl)">6 months</strong> — Most common; moderate remaining work</li>
-          <li><strong style="color:var(--tl)">8 months</strong> — Meaningful goals still ahead</li>
-          <li><strong style="color:var(--tl)">12 months</strong> — Comprehensive transformation</li>
-        </ul></div>
-        <div class="db"><h4>Legacy Program</h4><p>When you've reached your goal and are ready to maintain independently, Legacy gives you continued access to workouts, weekly group calls, and check-ins — your forever home in the Transform Strong community.</p></div>
-      </div></div>
-    </div>
-  </div></div>
-</div><!-- /roadmap -->
+</div><!-- /rm-wrap -->
+</div><!-- /view-roadmap -->
  
  
 <!-- ══════════════ VIEW 2: GOAL PATH + PROGRESS ══════════════ -->
@@ -349,14 +384,14 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
             <option value="recomp">Body Recomposition</option>
             <option value="gain">Muscle Gain / Reverse</option>
           </select></div>
-        <div class="fg"><label class="flbl">Current Stage</label>
+        <div class="fg"><label class="flbl">Current Phase</label>
           <select class="fsel" id="cstage">
-            <option value="1">Stage 1 — The Foundation</option>
-            <option value="2">Stage 2 — The Prescription</option>
-            <option value="3">Stage 3 — The Work</option>
-            <option value="4">Stage 4 — The Reassessment</option>
-            <option value="5">Stage 5 — The Next Chapter</option>
+            <option value="1">Phase 1 — Reset™</option>
+            <option value="2">Phase 2 — Reveal™</option>
+            <option value="3">Phase 3 — Restore™</option>
+            <option value="4">Phase 4 — Freedom™</option>
           </select></div>
+        <div class="fg"><label class="flbl">Total Months in Program</label><input class="finp" type="number" id="progMoTotal" placeholder="e.g. 5" min="0" max="36"><span class="fhint">Total months since you began coaching (all phases combined)</span></div>
         <div class="fg"><label class="flbl">Current Phase End Date</label><input class="finp" type="date" id="phaseEnd"><span class="fhint">Last day of this coaching phase</span></div>
         <div class="fg"><label class="flbl">Cut Start Date</label><input class="finp" type="date" id="cutStart"><span class="fhint">When you officially began your deficit this cycle</span></div>
         <div class="fg"><label class="flbl">Program Start Date (optional)</label><input class="finp" type="date" id="progStart"><span class="fhint">When you first started coaching — used for total context only</span></div>
@@ -386,7 +421,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
   <!-- Checklists: 2-per-row grid -->
   <div class="ck-row">
     <div class="ck-panel">
-      <div class="ck-panel-title">Stage 1 — Foundation</div>
+      <div class="ck-panel-title">Phase 1 — Reset™ Foundation</div>
       <ul class="ck-list" id="ml1">
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Logging food 80–90% of days consistently</li>
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Baseline steps established (know my daily average)</li>
@@ -396,7 +431,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
       </ul>
     </div>
     <div class="ck-panel">
-      <div class="ck-panel-title">Stage 2–3 — Active Phase</div>
+      <div class="ck-panel-title">Phase 2 — Reveal™ Active Phase</div>
       <ul class="ck-list" id="ml2">
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Received and understand my full plan from coach</li>
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Hitting calorie/macro targets consistently</li>
@@ -407,7 +442,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
       </ul>
     </div>
     <div class="ck-panel">
-      <div class="ck-panel-title">Stage 4–5 — Milestones</div>
+      <div class="ck-panel-title">Phase 3 — Restore™ Milestones</div>
       <ul class="ck-list" id="ml3">
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Completed Goal Path Call (Weeks 12–13)</li>
         <li class="ck-item"><div class="ck-box" onclick="tck(this)"></div>Discussed and decided on Phase II or Legacy</li>
@@ -516,21 +551,162 @@ function sw(name,btn){
   btn.classList.add('on');
 }
  
-// ── STAGE ACCORDION
-function tog(id){
-  const c=document.getElementById(id);
-  const wasOpen=c.classList.contains('open');
-  document.querySelectorAll('.scard').forEach(x=>x.classList.remove('open'));
-  if(!wasOpen) c.classList.add('open');
+// ── PHASE DATA ──
+const PHASES = {
+  1: {
+    title: 'Reset™',
+    subtitle: 'Phase 01 — Frontend · 16 Weeks',
+    thread: 'Reset is where everything starts. The habits, the fueling, the strength foundation. <strong>Skipping or rushing this phase means building everything that comes next on an unstable base.</strong> Every pound lost and every habit built here is what Reveal has to work with.',
+    cols: [
+      {
+        h: 'What Happens',
+        body: '<ul><li>Establish your baseline — calories, steps, water, sleep</li><li>Begin strength training (1–2 days, building gradually)</li><li>Learn to track without obsessing</li><li>First major win around Week 4 (usually 5–8 lbs)</li><li>Lose first 15–20 lbs total by end of phase</li></ul>'
+      },
+      {
+        h: 'What You Master',
+        body: '<ul><li>Consistent food logging (B+ effort, not perfection)</li><li>Hitting your protein and calorie targets</li><li>Showing up to the gym on scheduled days</li><li>Communicating openly with your coach</li></ul>'
+      },
+      {
+        h: 'What to Expect',
+        body: '<p>Weeks 1–3 are observation — we\'re learning your real baseline, not your "best behavior." The scale may not move right away and that\'s normal. By Week 4 you should see your first meaningful shift. By Week 16 you\'ll have lost 15–20 lbs and built a foundation you can trust.</p>'
+      }
+    ],
+    calls: ['Intro Call (Week 1)', 'Prescription Call (Weeks 3–4)', 'Benchmark Call (Weeks 6–8)', 'Goal Path Call (Weeks 12–13)'],
+    freedom: false
+  },
+  2: {
+    title: 'Reveal™',
+    subtitle: 'Phase 02 — Backend · 8 Months Minimum',
+    thread: '<strong>Here\'s what happens if we stop after Reset:</strong> your metabolism has adapted to the deficit. The habits are new. The results are real but fragile. Reveal is how we protect them — and push through to the actual goal. <strong>Stopping now would mean losing the result Reset built.</strong>',
+    cols: [
+      {
+        h: 'What Happens',
+        body: '<ul><li>Protocols are tweaked as metabolism adapts</li><li>Continued fat loss with progressive adjustments</li><li>Cardio and step levers introduced as needed</li><li>Nutrition timing and food quality refined</li><li>May cycle through multiple cut-and-restore mini-phases</li></ul>'
+      },
+      {
+        h: 'What You Master',
+        body: '<ul><li>Training 3–4 days/week without needing reminders</li><li>Managing eating out, travel, and events on macros</li><li>Recognizing plateaus vs. true stalls</li><li>Progressive overload in the gym week over week</li></ul>'
+      },
+      {
+        h: 'The Honest Truth',
+        body: '<p>Most clients need 8–12 months of Reveal to reach their true fat loss goal. This isn\'t a setback — it\'s the reality of sustainable fat loss. Anyone who promised it faster wasn\'t being straight with you. We protect the result by going at the right pace.</p>'
+      }
+    ],
+    calls: ['Benchmark Call (Month 2)', 'Benchmark Call (Month 4–5)', 'Goal Path Call (Month 7–8)'],
+    freedom: false
+  },
+  3: {
+    title: 'Restore™',
+    subtitle: 'Phase 03 — Backend · Approx. 3–4 Months',
+    thread: '<strong>Here\'s what happens if we stop after Reveal:</strong> you\'ve lost the weight, but your metabolism is running at a suppressed rate to match the deficit. Without Restore, that weight comes back — not because you failed, but because the body is doing exactly what it\'s designed to do. <strong>Restore is how we make the result permanent.</strong>',
+    cols: [
+      {
+        h: 'What Happens',
+        body: '<ul><li>Strategic reverse diet — calories increase slowly and deliberately</li><li>Metabolism rebuilds at the new lower bodyweight</li><li>Scale may rise slightly — this is expected and healthy</li><li>Energy, strength, and gym performance all improve</li><li>Building the maintenance baseline you\'ll live at</li></ul>'
+      },
+      {
+        h: 'What You Master',
+        body: '<ul><li>Eating more without fear or guilt</li><li>Understanding the difference between gaining and restoring</li><li>Hitting performance PRs in the gym</li><li>Beginning to loosen tracking without losing ground</li></ul>'
+      },
+      {
+        h: 'Why It Matters',
+        body: '<p>Restore isn\'t the fun part — it\'s the most important part. Every client who skips it or rushes it ends up back in our office. Every client who does it properly graduates to Freedom without ever having to do a hard cut again. The choice is that simple.</p>'
+      }
+    ],
+    calls: ['Restore Kickoff Call', 'Mid-Restore Check-In', 'Freedom Readiness Call'],
+    freedom: false
+  },
+  4: {
+    title: 'Freedom™',
+    subtitle: 'Phase 04 — Legacy · Approx. 3–4 Months',
+    thread: '<strong>This is what all of it was for.</strong> Not the weight on the scale — the life on the other side of it. Freedom means you know how to eat. You know how to train. You don\'t need a macro calculator or a coach\'s approval to enjoy dinner. <strong>Stopping before Freedom means the result belongs to the program. Freedom means it belongs to you.</strong>',
+    cols: [
+      {
+        h: 'What Happens',
+        body: '<ul><li>Gradual release from structured tracking</li><li>Learning to eat intuitively while maintaining results</li><li>Lifestyle integration — social events, travel, holidays</li><li>Transition to Legacy community (group calls, workouts, check-ins)</li><li>Graduation from 1:1 coaching</li></ul>'
+      },
+      {
+        h: 'What You Master',
+        body: '<ul><li>Eating without logging and staying in range</li><li>Maintaining your results without a coach</li><li>Training independently with confidence</li><li>Life without restriction or stress at the dinner table</li></ul>'
+      },
+      {
+        h: 'Legacy Program',
+        body: '<p>Freedom graduates move into our Legacy community — continued access to workouts, weekly group calls, and check-ins without a dedicated 1:1 coach. It\'s your forever home. You\'ve earned it.</p>'
+      }
+    ],
+    calls: ['Freedom Kickoff Call', 'Mid-Phase Check-In', 'Legacy Graduation Call'],
+    freedom: true
+  }
+};
+ 
+let activePhase = null;
+ 
+function openPhase(n) {
+  const detail = document.getElementById('phDetail');
+  const inner  = document.getElementById('phDetailInner');
+ 
+  // If clicking same phase, close it
+  if(activePhase === n) {
+    detail.classList.remove('open');
+    document.getElementById('phc'+n).classList.remove('ph-active');
+    activePhase = null;
+    return;
+  }
+ 
+  // Deactivate all cards
+  for(let i=1;i<=4;i++) document.getElementById('phc'+i).classList.remove('ph-active');
+  document.getElementById('phc'+n).classList.add('ph-active');
+  activePhase = n;
+ 
+  const p = PHASES[n];
+ 
+  const colsHTML = p.cols.map(c => `
+    <div class="ph-db">
+      <h4>${c.h}</h4>
+      ${c.body}
+    </div>`).join('');
+ 
+  const callsHTML = p.calls.map(c => `<span class="call-pill">${c}</span>`).join('');
+ 
+  const freedomBadge = p.freedom ? `
+    <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(176,138,32,.1),rgba(176,138,32,.06));border:1px solid rgba(176,138,32,.3);border-radius:8px;padding:10px 14px;margin-bottom:16px;">
+      <span style="font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700;">🎓 This phase graduates to Legacy — no more 1:1 coach required</span>
+    </div>` : '';
+ 
+  inner.innerHTML = `
+    <div class="ph-detail-header">
+      <div>
+        <div class="ph-detail-title">${p.title} — ${p.subtitle.split('·')[1].trim()}</div>
+        <div class="ph-detail-duration">${p.subtitle.split('·')[0].trim()} · ${p.subtitle.split('·')[2] ? p.subtitle.split('·')[2].trim() : ''}</div>
+      </div>
+      <button class="ph-close" onclick="closePhase(event)">✕ Close</button>
+    </div>
+    ${freedomBadge}
+    <div class="ph-thread">${p.thread}</div>
+    <div class="ph-detail-grid">${colsHTML}</div>
+    <div style="margin-top:8px;">
+      <div style="font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px;">Coaching Calls This Phase</div>
+      ${callsHTML}
+    </div>`;
+ 
+  detail.classList.add('open');
+ 
+  // Scroll detail into view smoothly
+  setTimeout(() => detail.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
 }
-function jumpTo(id){
-  document.querySelectorAll('.scard').forEach(x=>x.classList.remove('open'));
-  const c=document.getElementById(id);
-  if(c){c.classList.add('open');setTimeout(()=>c.scrollIntoView({behavior:'smooth',block:'start'}),80);}
-  return false;
+ 
+function closePhase(e) {
+  e.stopPropagation();
+  document.getElementById('phDetail').classList.remove('open');
+  if(activePhase) document.getElementById('phc'+activePhase).classList.remove('ph-active');
+  activePhase = null;
 }
-function setYouHere(n){
-  for(let i=1;i<=5;i++) document.getElementById('yh'+i).style.display=(i===n)?'block':'none';
+ 
+function setYouHere(n) {
+  for(let i=1;i<=4;i++) {
+    const el = document.getElementById('yh'+i);
+    if(el) el.style.display = (i===n) ? 'block' : 'none';
+  }
 }
  
 // ── HELPERS
@@ -573,13 +749,25 @@ function runCalc(){
   const totalAddlWks=cutWkLeft+revWks;
   const totalAddlMo=totalAddlWks/4.33;
  
-  let p2Mo=4;
-  if(totalAddlMo>4&&totalAddlMo<=6) p2Mo=6;
-  else if(totalAddlMo>6&&totalAddlMo<=8) p2Mo=8;
-  else if(totalAddlMo>8) p2Mo=12;
-  if(remaining<=0&&gt==='fat_loss') p2Mo=0;
-  if(gt==='recomp') p2Mo=Math.max(p2Mo,6);
-  if(gt==='gain') p2Mo=Math.max(p2Mo,6);
+  // Phase II minimum is always 8 months
+  // If total program months >= 12, client has completed Reset (4mo) + Reveal (8mo)
+  // and can do 6 or 8 additional months, or move to Legacy
+  const totalProgMo = parseFloat(v('progMoTotal').value) || 0;
+  const completedFullReveal = totalProgMo >= 12;
+ 
+  let p2Mo = 8; // default minimum
+  if(completedFullReveal){
+    // They've done 12+ months — shorter additional phases OK
+    if(totalAddlMo <= 0 || remaining <= 0) p2Mo = 0; // Legacy ready
+    else if(totalAddlMo <= 6) p2Mo = 6;
+    else p2Mo = 8;
+  } else {
+    // Standard: minimum 8 months
+    if(totalAddlMo <= 0 || (remaining <= 0 && gt==='fat_loss')) p2Mo = 0;
+    else p2Mo = 8;
+  }
+  if(gt==='recomp') p2Mo=Math.max(p2Mo,8);
+  if(gt==='gain') p2Mo=Math.max(p2Mo,8);
  
   const bfNow=estBF(cw,ht,age);
   const bfGoal=estBF(gw,ht,age);
@@ -606,7 +794,7 @@ function runCalc(){
         .map(el=>el.closest('.ck-item').textContent.trim()).filter(Boolean);
       const hLine=hWins.length>0?` Notable wins already locked in: <strong>${hWins.slice(0,3).join('; ')}</strong>${hWins.length>3?' and more':''}.`:``;
       hl=`Based on Your Data: <span class="accent">${p2Mo} More Months</span> of Coached Support`;
-      narr=`You\'ve lost <strong>${lost.toFixed(1)} lbs</strong> so far — based on ${rateStr} — with <strong>${remaining.toFixed(1)} lbs</strong> still to go.${bfTxt} We project approximately <strong>${cutWkLeft} more weeks in an active deficit</strong>, with a modest buffer for the natural slowdown as you get leaner. After that, a <strong>${revWks}-week reverse and maintenance phase</strong> will reset your metabolism, restore energy, and make your results permanent. We recommend a <strong>${p2Mo}-month Phase II</strong>.${hLine}`;
+      narr=`You\'ve lost <strong>${lost.toFixed(1)} lbs</strong> so far — based on ${rateStr} — with <strong>${remaining.toFixed(1)} lbs</strong> still to go.${bfTxt} We project approximately <strong>${cutWkLeft} more weeks in an active deficit</strong>, with a modest buffer for the natural slowdown as you get leaner. After that, a <strong>${revWks}-week reverse and maintenance phase</strong> will reset your metabolism, restore energy, and make your results permanent. ${p2Mo>0?`We recommend a <strong>${p2Mo}-month Reveal™ Phase II</strong>.${completedFullReveal?' (You\'ve completed 12+ months — shorter continuation options are now available.)':''}`:`You may be ready to transition to Restore™ or Legacy.`}${hLine}`;
     }
   
 } else if(gt==='recomp'){
@@ -688,7 +876,7 @@ function runCalc(){
     v('projEndBFEl').textContent = projEndBF ? projEndBF + '%' : '—';
     if(projP2Weight){
       v('projP2Card').style.display='';
-      v('projP2Title').textContent = 'After ' + p2Mo + '-Month Phase II';
+      v('projP2Title').textContent = p2Mo > 0 ? 'After ' + p2Mo + '-Month Reveal™' : 'After Restore™ + Freedom™';
       v('projP2WtEl').textContent = projP2Weight.toFixed(1) + ' lbs';
       v('projP2BFEl').textContent = projP2BF ? projP2BF + '%' : '—';
       const p2EndDate = new Date(v('phaseEnd').value);
@@ -719,7 +907,7 @@ function saveClient(){
   if(!name){alert('Enter a client name first.');return;}
   const data={
     name,savedAt:new Date().toISOString(),
-    sw:v('sw').value,cw:v('cw').value,gw:v('gw').value,wi:v('wi').value,phaseEnd:v('phaseEnd').value,cutStart:v('cutStart').value,progStart:v('progStart').value,
+    sw:v('sw').value,cw:v('cw').value,gw:v('gw').value,wi:v('wi').value,phaseEnd:v('phaseEnd').value,cutStart:v('cutStart').value,progStart:v('progStart').value,progMoTotal:v('progMoTotal').value,
     ht:v('ht').value,age:v('age').value,
     gtype:v('gtype').value,cstage:v('cstage').value,
     win1:v('win1').value,win2:v('win2').value,win3:v('win3').value,
@@ -751,7 +939,7 @@ function clearClient(){
   if(!name||!confirm('Clear all saved data for "'+name+'"?'))return;
   localStorage.removeItem(clientKey(name));
   document.querySelectorAll('.ck-box').forEach(x=>x.classList.remove('done'));
-  ['sw','cw','gw','wi','ht','age','win1','win2','win3','goal1','goal2','goal3','obstacles','clientNotes','phaseEnd','cutStart','progStart'].forEach(id=>v(id).value='');
+  ['sw','cw','gw','wi','ht','age','win1','win2','win3','goal1','goal2','goal3','obstacles','clientNotes','phaseEnd','cutStart','progStart','progMoTotal'].forEach(id=>v(id).value='');
   v('resWrap').style.display='none'; calcData={};
   alert('Cleared data for "'+name+'".');
 }
@@ -763,7 +951,7 @@ async function exportPDF(){
  
   const clientName=v('clientName').value.trim()||'Client';
   const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  const stages=['','The Foundation','The Prescription','The Work','The Reassessment','The Next Chapter'];
+  const stages=['','Reset™','Reveal™','Restore™','Freedom™'];
  
   // Collect all data
   const D={
@@ -911,15 +1099,15 @@ async function exportPDF(){
  
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
         <div>
-          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Stage 1 — Foundation</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Phase 1 — Reset™</div>
           ${ckRow(D.ck1)}
         </div>
         <div>
-          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Stage 2–3 — Active Phase</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Phase 2 — Reveal™</div>
           ${ckRow(D.ck2)}
         </div>
         <div>
-          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Stage 4–5 — Milestones</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${teal};margin-bottom:10px;border-bottom:1px solid #c8e4e1;padding-bottom:6px;">Phase 3 — Restore™</div>
           ${ckRow(D.ck3)}
         </div>
         <div>
@@ -975,11 +1163,12 @@ async function exportPDF(){
  
 // ── INIT
 document.addEventListener('DOMContentLoaded',()=>{
-  for(let i=1;i<=5;i++) document.getElementById('yh'+i).style.display='none';
-  tog('stage1');
+  // Hide all You Are Here badges on roadmap
+  for(let i=1;i<=4;i++){const el=document.getElementById('yh'+i);if(el)el.style.display='none';}
   const raw=localStorage.getItem('ts_calc_last');
-  if(raw){try{const d=JSON.parse(raw);['sw','cw','gw','wi','ht','age','phaseEnd','cutStart','progStart'].forEach(id=>{if(d[id])v(id).value=d[id];});}catch(e){}}
+  if(raw){try{const d=JSON.parse(raw);['sw','cw','gw','wi','ht','age','phaseEnd','cutStart','progStart','progMoTotal'].forEach(id=>{if(d[id])v(id).value=d[id];});}catch(e){}}
 });
 </script>
 </body>
 </html>
+ 
