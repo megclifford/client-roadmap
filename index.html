@@ -83,17 +83,16 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
 .ckl li::before{content:'☐';color:var(--tl);font-size:.85rem;flex-shrink:0;margin-top:1px;}
  
 /* ══ THREE PILLARS ══ */
-.pillars-wrap{max-width:740px;margin:0 auto 36px;padding:0 32px;}
-.pillars-lbl{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#7a8a8a;text-align:center;margin-bottom:18px;font-weight:600;}
-.pillars-row{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;}
+.pillars-wrap{max-width:700px;margin:0 auto 36px;padding:0 32px;}
+.pillars-lbl{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#7a8a8a;text-align:center;margin-bottom:20px;font-weight:600;}
+.pillars-row{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
 .pillar-circle{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s;}
 .pillar-circle:hover{transform:translateY(-4px);}
-.pc-ring{width:88px;height:88px;border-radius:50%;border:2px solid rgba(26,122,112,.3);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:10px;transition:all .22s;box-shadow:0 2px 10px rgba(0,0,0,.06);gap:3px;}
-.pillar-circle:hover .pc-ring,.pc-ring.pactive{border-color:var(--teal);background:rgba(26,122,112,.05);box-shadow:0 4px 18px rgba(26,122,112,.15);}
-.pc-icon{font-size:1.3rem;line-height:1;}
-.pc-name{font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:700;text-align:center;line-height:1.2;padding:0 8px;}
-.pc-label{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:#2a3535;font-weight:700;text-align:center;max-width:100px;}
-.pc-sub{font-size:.68rem;color:#7a8a8a;text-align:center;max-width:100px;margin-top:2px;line-height:1.3;}
+.pc-ring{width:92px;height:92px;border-radius:50%;border:2px solid rgba(26,122,112,.28);background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:10px;transition:all .24s;box-shadow:0 2px 10px rgba(0,0,0,.07);padding:18px;}
+.pillar-circle:hover .pc-ring,.pc-ring.pactive{border-color:var(--teal);background:rgba(26,122,112,.05);box-shadow:0 4px 20px rgba(26,122,112,.18);}
+.pc-ring svg{width:100%;height:100%;display:block;}
+.pc-label{font-family:'Montserrat',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#2a3535;font-weight:700;text-align:center;white-space:nowrap;}
+.pillar-circle:hover .pc-label,.pc-ring.pactive+.pc-label{color:var(--teal);}
  
 /* pillar detail panel */
 .pillar-detail{display:none;background:#fff;border:2px solid var(--teal);border-radius:12px;margin-bottom:28px;overflow:hidden;animation:slideDown .26s ease;}
@@ -321,21 +320,59 @@ body{font-family:'DM Sans',sans-serif;background:#f5f7f7;color:#1a2424;min-heigh
   <div class="pillars-wrap">
     <div class="pillars-lbl">Our 3 Pillars</div>
     <div class="pillars-row">
+ 
+      <!-- PILLAR 1: FUELED — flame/leaf outline -->
       <div class="pillar-circle" onclick="openPillar(1)">
-        <div class="pc-ring" id="pcr1"><div class="pc-icon">🔥</div><div class="pc-name">Fuel</div></div>
-        <div class="pc-label">The Fuel Protocol™</div>
-        <div class="pc-sub">Fix your metabolism from the inside out</div>
+        <div class="pc-ring" id="pcr1">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#1a7a70" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- droplet/fuel shape -->
+            <path d="M24 6 C24 6 10 20 10 30 a14 14 0 0 0 28 0 C38 20 24 6 24 6 Z"/>
+            <!-- inner spark -->
+            <path d="M24 36 C20 34 18 30 20 26 C21 28 23 29 24 28 C25 29 27 28 28 26 C30 30 28 34 24 36 Z"/>
+          </svg>
+        </div>
+        <div class="pc-label">Fueled Protocol™</div>
       </div>
+ 
+      <!-- PILLAR 2: FIT — dumbbell outline -->
       <div class="pillar-circle" onclick="openPillar(2)">
-        <div class="pc-ring" id="pcr2"><div class="pc-icon">💪</div><div class="pc-name">Fit</div></div>
-        <div class="pc-label">The Fit Protocol™</div>
-        <div class="pc-sub">Build the body with strength, not cardio</div>
+        <div class="pc-ring" id="pcr2">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#1a7a70" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- dumbbell bar -->
+            <line x1="15" y1="24" x2="33" y2="24"/>
+            <!-- left weight plates -->
+            <rect x="7" y="18" width="5" height="12" rx="2"/>
+            <rect x="4" y="20" width="4" height="8" rx="1.5"/>
+            <!-- right weight plates -->
+            <rect x="36" y="18" width="5" height="12" rx="2"/>
+            <rect x="40" y="20" width="4" height="8" rx="1.5"/>
+            <!-- collar lines -->
+            <line x1="15" y1="18" x2="15" y2="30"/>
+            <line x1="33" y1="18" x2="33" y2="30"/>
+          </svg>
+        </div>
+        <div class="pc-label">Fit Protocol™</div>
       </div>
+ 
+      <!-- PILLAR 3: F3 SUPPORT — interlocking rings / community outline -->
       <div class="pillar-circle" onclick="openPillar(3)">
-        <div class="pc-ring" id="pcr3"><div class="pc-icon">🤝</div><div class="pc-name">F3 Support</div></div>
-        <div class="pc-label">The F3 Support System™</div>
-        <div class="pc-sub">The structure that makes it stick</div>
+        <div class="pc-ring" id="pcr3">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#1a7a70" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- three people silhouettes -->
+            <!-- left person -->
+            <circle cx="14" cy="16" r="5"/>
+            <path d="M6 38 C6 30 10 27 14 27 C16 27 18 28 19 30"/>
+            <!-- right person -->
+            <circle cx="34" cy="16" r="5"/>
+            <path d="M42 38 C42 30 38 27 34 27 C32 27 30 28 29 30"/>
+            <!-- center person (taller/front) -->
+            <circle cx="24" cy="14" r="6"/>
+            <path d="M13 40 C13 31 18 28 24 28 C30 28 35 31 35 40"/>
+          </svg>
+        </div>
+        <div class="pc-label">F3 Support System™</div>
       </div>
+ 
     </div>
   </div>
  
@@ -667,7 +704,7 @@ function openPillar(n) {
   const detail = document.getElementById('pillarDetail');
   const inner  = document.getElementById('pillarDetailInner');
  
-  // Close if same
+  // Close if clicking same pillar
   if(activePillar === n) {
     detail.classList.remove('open');
     document.getElementById('pcr'+n).classList.remove('pactive');
@@ -675,30 +712,30 @@ function openPillar(n) {
     return;
   }
  
-  // Deactivate all
+  // Deactivate all rings
   for(let i=1;i<=3;i++) document.getElementById('pcr'+i).classList.remove('pactive');
   document.getElementById('pcr'+n).classList.add('pactive');
   activePillar = n;
  
   const p = PILLARS[n];
-  const boxesHTML = p.boxes.map(b => `
-    <div class="pd-box">
-      <h4>${b.h}</h4>
-      <p>${b.body}</p>
-    </div>`).join('');
  
-  inner.innerHTML = `
-    <div class="pd-header">
-      <div>
-        <div class="pd-title">${p.name}</div>
-        <div class="pd-tagline">${p.tagline}</div>
-      </div>
-      <button class="ph-close" onclick="closePillar(event)">✕ Close</button>
-    </div>
-    <div class="pd-grid">${boxesHTML}</div>`;
+  // Build one description box per pillar (3 boxes in a row)
+  const boxesHTML = p.boxes.map(b =>
+    '<div class="pd-box"><h4>' + b.h + '</h4><p>' + b.body + '</p></div>'
+  ).join('');
+ 
+  inner.innerHTML =
+    '<div class="pd-header">' +
+      '<div>' +
+        '<div class="pd-title">' + p.name + '</div>' +
+        '<div class="pd-tagline">' + p.tagline + '</div>' +
+      '</div>' +
+      '<button class="ph-close" onclick="closePillar(event)">&#x2715; Close</button>' +
+    '</div>' +
+    '<div class="pd-grid">' + boxesHTML + '</div>';
  
   detail.classList.add('open');
-  setTimeout(() => detail.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+  setTimeout(function(){ detail.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 50);
 }
  
 function closePillar(e) {
